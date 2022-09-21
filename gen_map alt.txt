@@ -1,0 +1,38 @@
+def gen_sprengbares():
+    for starty, zeile in enumerate(Liste):
+        for startx, spalte in enumerate(zeile):
+            if Liste[starty][startx] == 0 or Liste[starty][startx] == 9:
+                chance = 14
+                if startx > 3 and starty > 3:
+                    i = 0
+                    while i < 3:
+                        e = 0
+                        while e < 3:
+                            if Liste[starty - e][startx - i] == 2:
+                                chance /= 2
+                            e += 1
+                        i += 1
+                if int(chance) < 1:
+                    chance = 1
+                if random.randint(1,int(chance)) == 1:
+                    el = element4(Liste, starty, startx)
+                    el.gen()
+
+def gen_map():
+    copy_Liste = Liste.copy()
+    for starty, zeile in enumerate(Liste):
+        for startx, spalte in enumerate(zeile):
+            if Liste[starty][startx] == 0:
+                if random.randint(0,10) == 1:
+
+                    el = element3(Liste, starty, startx)
+                    if startx + el.width <= len(zeile) and starty + el.height <= len(Liste):
+                        if space(el.width, el.height, starty - 1, startx - 1) == True:
+                            el.gen()
+
+                elif random.randint(0,0) == 1:
+                    el = element2(Liste, starty, startx)
+                    if startx + el.width <= len(zeile) and starty + el.height <= len(Liste):
+                        if space(el.width, el.height, starty, startx) == True:
+                            el.gen()
+    gen_sprengbares()

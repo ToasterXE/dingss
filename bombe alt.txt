@@ -1,0 +1,56 @@
+global bombenanzahl, bombe1_pos, bombe2_pos, bombe3_pos, bombe4_pos, bombe5_pos, bombe6_pos
+        pos = pygame.math.Vector2((self.Player.rect.left - self.Player.rect.left % feld_pixel, self.Player.rect.top - self.Player.rect.top % feld_pixel))        
+        pos_neu = False
+        if not (bombe1_pos.collidepoint(pos) or bombe2_pos.collidepoint(pos) or bombe3_pos.collidepoint(pos) or bombe4_pos.collidepoint(pos) or bombe5_pos.collidepoint(pos) or bombe6_pos.collidepoint(pos)):
+            pos_neu = True        
+       
+        if bombenanzahl == 0:
+            pass
+        
+        elif bombenanzahl == bombeninsgesamt:   #1
+            if pos_neu == True:
+                bombe1 = bombe([gutereSprites, bombenSprites],pos,1,self.map)
+                bombe1_pos = bombe1.collision_rect
+                bombenanzahl -= 1
+                bombe1.explode()
+                bombe1.update()
+        
+        elif bombenanzahl == bombeninsgesamt -1:    #2
+            if pos_neu == True:
+                bombe2 = bombe([gutereSprites, bombenSprites],pos,2,self.map)
+                bombe2_pos = bombe2.collision_rect
+                bombenanzahl -= 1
+                bombe2.explode()
+                bombe2.update()
+        
+        elif bombenanzahl == bombeninsgesamt -2:    #3
+            if pos_neu == True:
+                bombe3 = bombe([gutereSprites, bombenSprites],pos,3,self.map)
+                bombe3_pos = bombe3.collision_rect
+                bombenanzahl -= 1
+                bombe3.explode()
+                bombe3.update()
+        
+        elif bombenanzahl == bombeninsgesamt -3:    #4
+            if pos_neu == True:    
+                bombe4 = bombe([gutereSprites, bombenSprites],pos,4,self.map)
+                bombe4_pos = bombe4.collision_rect
+                bombenanzahl -= 1
+                bombe4.explode()
+                bombe4.update()
+        
+        elif bombenanzahl == bombeninsgesamt -4:    #5
+            if pos_neu == True:
+                bombe5 = bombe([gutereSprites, bombenSprites],pos,5,self.map)
+                bombe5_pos = bombe5.collision_rect
+                bombenanzahl -= 1
+                bombe5.explode()
+                bombe5.update()
+        
+        elif bombenanzahl == bombeninsgesamt -5:    #6
+            if pos_neu == True:
+                bombe6 = bombe([gutereSprites, bombenSprites],pos,6,self.map)
+                bombe6_pos = bombe6.collision_rect
+                bombenanzahl -= 1
+                bombe6.explode()
+                bombe6.update()
