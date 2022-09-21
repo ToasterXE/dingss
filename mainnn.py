@@ -1,110 +1,97 @@
 import pygame
 from maps import *
 from level import *
-from einstellungen import *
 
-hintergrundImg = pygame.transform.scale(pygame.image.load((os.path.join("dateien", "hintergrund.png"))),(realFensterBreite,FensterHoehe))
+hintergrundImg = pygame.transform.scale(pygame.image.load((os.path.join("dateien", "hintergrund.png"))),(windowBreite,windowHoehe))
 
 pygame.font.init()
+window = pygame.display.set_mode((windowBreite, windowHoehe))
 pygame.display.set_caption("dingss")
-pygame.display.set_icon(pygame.image.load(os.path.join("dateien", "player_vorne.png")))
-font = pygame.font.SysFont("candara", 80)
-#tasten
-auswahl_taste = pygame.K_l
-bomben_taste = pygame.K_p
+font = pygame.font.SysFont("candara", 30)
 
-#wurde programmiert für die nutzung mit der maus, dann aber auf den Spielautomaten angepasst
-class button():
-    def __init__(self, name, links, oben, breite, hoehe):
-        self.name = name
-        self.schrift = font.render(name, True, (230,230,230))
-        self.schrift_rect = self.schrift.get_rect(center = (links + breite / 2, oben + hoehe / 2))
-        self.linie_oben = pygame.Rect(links, oben, breite, 2)
-        self.linie_links = pygame.Rect(links, oben, 2, hoehe)
-        self.linie_unten = pygame.Rect(links, (oben + hoehe - 2), breite, 2)
-        self.linie_rechts = pygame.Rect((links + breite - 2), oben, 2, hoehe)
-        self.rect = pygame.Rect(links, oben, breite, hoehe)
-        self.color = (50,50,50)
-        self.color2 = (32,32,32)
-        self.true = False                                                                                                                                  
+mouse_clicked = False
+def button(name, links, oben, breite, hoehe, color, color_hover,linecolor):
+    buttonSchrift = font.render(name, True, (230, 230, 230))
+    buttonSchrift_rect = buttonSchrift.get_rect(center = (links + breite / 2, oben + hoehe / 2))
+    linie_oben = pygame.rect.Rect(links,oben,breite,2)
+    linie_links = pygame.rect.Rect(links,oben,2,hoehe)
+    linie_unten = pygame.rect.Rect(links,(oben+hoehe-2),breite,2)
+    linie_rechts = pygame.rect.Rect((links+breite-2),oben,2,hoehe)
+    name = pygame.Rect(links, oben, breite, hoehe)
+    mausPos = pygame.mouse.get_pos()
+    
+    pygame.draw.rect(window, color, name)
+    pygame.draw.rect(window, linecolor, linie_oben)
+    pygame.draw.rect(window, linecolor, linie_links)
+    pygame.draw.rect(window, linecolor, linie_unten)
+    pygame.draw.rect(window, linecolor, linie_rechts)
+    window.blit(buttonSchrift, buttonSchrift_rect)
 
-    def update(self):
-        pygame.draw.rect(window, self.color, self.rect)
-        pygame.draw.rect(window, self.color2, self.linie_links)
-        pygame.draw.rect(window, self.color2, self.linie_oben)
-        pygame.draw.rect(window, self.color2, self.linie_rechts)
-        pygame.draw.rect(window, self.color2, self.linie_unten)
-        window.blit(self.schrift, self.schrift_rect)
+    if name.collidepoint(mausPos):
+        pygame.draw.rect(window, color_hover, name)
+        window.blit(buttonSchrift, buttonSchrift_rect)
+        if pygame.mouse.get_pressed()[0] == True:
+            return True
 
 clock = pygame.time.Clock()
+i = 0
 level_counter = 1
+
 
 def level_count(zahl):
     if zahl == 1:
-        return Level4_map  
-    
+        return Level1_map
     if zahl == 2:
-        return Level5_map
+        return Level2_map
     if zahl == 3:
-        return Level6_map
-    if zahl == 4:
-        return Level7_map
-    if zahl == 5:
-        return Level8_map
-    if zahl > 5:
-        zahl = 1
-        return (level_count(zahl))
-
-
-
-#init_counter = 0        
-start = button("Start", realFensterBreite / 2 - 150, FensterHoehe / 2 - 50, 300, 100) 
-weiter = button("weiter", 600, 700, 400, 100)
-retry_button = button("nochmal versuchen", 400, 700, 800, 100)
-hauptmenu = button("Hauptmenü", 500, 700, 600, 100)
-spielstart = False
-run = True
+        return Level3_map
+    else:
+        return Level1_map
+        
 
 def main_menu():
-    global level_counter, spielstart, run
+    global level_counter
+    run = True
     while run:
-        
+        clock.tick(60)
         for event in pygame.event.get():
-            
-            if event.type == pygame.KEYDOWN:
-                if event.key == auswahl_taste:
-                    spielstart = True 
 
             if event.type == pygame.QUIT:
-                run = False
                 pygame.quit()
+        window.blit(hintergrundImg,(0,0))
+        if level_counter == 1:
+            if button("Start", 300, 100, 200, 80, (50,50,50), (70,70,70), (20,20,20)) == True:    
+                level_main(Level1_map)
 
-        window.blit(hintergrundImg, (0,0))
+        else:
+            if button ("Nächstet Level", 250, 100, 300, 80, (50,50,50), (70,70,70), (20,20,20)) == True:
+                    level_main(level_count(level_counter))
 
-        start.update()
         pygame.display.update()
-
-        if spielstart == True:   
-            level_main(level_count(level_counter))      #hier wird zu einem anderen main loop gewechselt 
-
 
 
 def level_main(map):
-    global level_counter, run
-    level = Level(map)
+    global i, level_counter
     run = True
-    while run:     
+    while run:
+        i += 1
+        if i == 1:
+            level = Level(map)
         clock.tick(60)
+        for event in pygame.event.get():
 
-
-      #  if init_counter == 1:
-       #     level = Level(map)
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            
+            if event.type ==  pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    level.dings()
         
-        window.fill((20,20,20)) 
-        keys_pressed = pygame.key.get_pressed()
+        #print (level.won)
+        window.fill((20,20,20))
+        
         if level.end == True:
             level.statistiken()
-
             #sichtbare spritegruppen
             sichtbareSprites.empty() 
             bessereSprites.empty()
@@ -120,50 +107,28 @@ def level_main(map):
             slownesscounterSprites.empty()
             bombenobjekteSprites.empty()
             alienSprites.empty()
-            explosionsListe.clear()
-            hpboostSprites.empty()
-            bombeboostSprites.empty()
-            infofeldexplosionen.empty()
-
             if level.won == True:
-                if level_counter < 3:
-                    weiter.update()
-                    if keys_pressed[auswahl_taste]:
-                        weiter.true = True
-                        level_counter += 1
-                        level_main(level_count(level_counter))
-            
-                elif level_counter >= 3:
-                    hauptmenu.update()
-                    if keys_pressed[auswahl_taste]:
-                        hauptmenu.true = True
-                        level_counter += 0
-                        main_menu()
-
-            else:
-                retry_button.update()
-                if keys_pressed[auswahl_taste]:
-                    retry_button.true = True
+                if button("weiter", 650, 380, 100, 50, (50,50,50), (70,70,70), (30,30,30)) == True:
+                    i = 0
+                    level_counter += 1
                     level_main(level_count(level_counter))
+                if button("Hauptmenü",300,380,200,50,(50,50,50), (70,70,70), (30,30,30)) == True:
+                    i = 0
+                    level_counter += 1
+                    main_menu() 
+            else:
+                if button("nochmal versuchen", 530, 380, 250, 50, (50,50,50), (70,70,70), (30,30,30)) == True:
+                    i = 0
+                    level_main(level_count(level_counter))
+                if button("Hauptmenü",300,380,200,50,(50,50,50), (70,70,70), (30,30,30)) == True:
+                    i = 0
+                    main_menu()
 
         if level.end == False:
             level.run()
 
+                #main_menu()
         pygame.display.update()
 
-        for event in pygame.event.get():
-
-
-            if event.type ==  pygame.KEYDOWN:       #events wie KEYDOWN können nur im main loop aufgerufen werden (?)
-                if event.key == bomben_taste:
-                    if level.end == False:
-                        level.dings()
-        
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                run = False
-
-     #   init_counter += 1
-if run == True:
-    #main_menu()
-    level_main(benediktslevel6)
+main_menu()
+#level_main(Level4_map)

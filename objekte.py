@@ -1,24 +1,17 @@
-#die klassen für objekte sind in einer anderen datei, damit es übersichtlicher ist
 import pygame
 import os
-from bilder import *
+#from level import gutereSprites
 
-class bombe_boost(pygame.sprite.Sprite):
-    def __init__(self,pos,groups):
-        super().__init__(groups)
-        self.image = bombeboost_Img
-        self.pos = pos
-        self.rect = self.image.get_rect(topleft = pos)
-
-    def delete(self):
-        self.kill()
+slowness_potionImg = pygame.image.load(os.path.join("dateien", "slowness_potion.png"))
+speed_potionImg = pygame.image.load(os.path.join("dateien","speed_potion.png"))
+bombe_objektImg = pygame.image.load(os.path.join("dateien","bombe_objekt.png"))
 
 class bombe_objekt(pygame.sprite.Sprite):
     def __init__(self,pos,groups):
         super().__init__(groups)
         self.image = bombe_objektImg
         self.pos = pos
-        self.rect = self.image.get_rect(topleft = pos)  #get rekt du kek
+        self.rect = self.image.get_rect(topleft = pos)
 
     def delete(self):
         self.kill()
@@ -40,14 +33,5 @@ class speed_potion(pygame.sprite.Sprite):
         self.pos = pos
         self.rect = self.image.get_rect(topleft = pos)
 
-    def delete(self):
-        self.kill()
-
-class hp_boost(pygame.sprite.Sprite):
-    def __init__(self,pos,groups):
-        super().__init__(groups)
-        self.image = hp_boostImg
-        self.pos = pos
-        self.rect = self.image.get_rect(topleft = pos)
     def delete(self):
         self.kill()
