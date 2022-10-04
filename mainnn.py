@@ -124,6 +124,7 @@ def level_main(map):
             hpboostSprites.empty()
             bombeboostSprites.empty()
             infofeldexplosionen.empty()
+            aliencollisionSprites.empty()
 
             if level.won == True:
                 if level_counter < 3:
@@ -169,4 +170,4 @@ def level_main(map):
      #   init_counter += 1
 if run == True:
     #main_menu()
-    level_main(Level4_map)
+    level_main(Level6_map)
