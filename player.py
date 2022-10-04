@@ -24,6 +24,7 @@ class Player(pygame.sprite.Sprite):
         self.speed = feld_pixel / 8
         self.hp = hp
         self.hit = False
+        self.godmode = False
         self.hpcounter = 0
         self.gestorben = False
         self.damage_taken = 0
@@ -132,21 +133,22 @@ class Player(pygame.sprite.Sprite):
                     self.image = self.linksImg
                     self.image32 = playerlinksImg32
                     
-               
-        for hinderniss in self.hindernisse:
+        if not self.godmode:       
+            for hinderniss in self.hindernisse:
+            
+                if hinderniss.rect.colliderect(self.rect):      #wenn der spieler in ein hinderniss hereinläuft wird die bewegung rückgängig gemacht, bevor alles gezeichnet wird
+                    if not hinderniss.type == "wegraeumbares":               
         
-            if hinderniss.rect.colliderect(self.rect):      #wenn der spieler in ein hinderniss hereinläuft wird die bewegung rückgängig gemacht, bevor alles gezeichnet wird
-                if not hinderniss.type == "wegraeumbares":               
-    
-                    if zuletzt == "w":
-                        self.rect.top += hinderniss.rect.bottom - self.rect.top
-                    if zuletzt == "s":
-                        self.rect.top -= self.rect.bottom - hinderniss.rect.top 
-                    if zuletzt == "d":
-                        self.rect.left -= self.rect.right - hinderniss.rect.left
-                    if zuletzt == "a":
-                        self.rect.left += hinderniss.rect.right - self.rect.left
-
+                        if zuletzt == "w":
+                            self.rect.top += hinderniss.rect.bottom - self.rect.top
+                        if zuletzt == "s":
+                            self.rect.top -= self.rect.bottom - hinderniss.rect.top 
+                        if zuletzt == "d":
+                            self.rect.left -= self.rect.right - hinderniss.rect.left
+                        if zuletzt == "a":
+                            self.rect.left += hinderniss.rect.right - self.rect.left
+        else:
+            self.image = player_godmodeImg
     def hp_update(self):
         if self.hit == True:
                 self.hpcounter += 1
@@ -171,4 +173,5 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         self.player_movement()
-        self.hp_update()
+        if not self.godmode:
+            self.hp_update()

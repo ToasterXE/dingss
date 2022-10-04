@@ -153,6 +153,9 @@ def level_main(map):
 
         for event in pygame.event.get():
 
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_g:
+                    level.godmode_update()
 
             if event.type ==  pygame.KEYDOWN:       #events wie KEYDOWN können nur im main loop aufgerufen werden (?)
                 if event.key == bomben_taste:
@@ -166,4 +169,4 @@ def level_main(map):
      #   init_counter += 1
 if run == True:
     #main_menu()
-    level_main(benediktslevel6)
+    level_main(benediktslevel7)

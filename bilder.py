@@ -14,6 +14,9 @@ playerrechtsImg = pygame.transform.scale(pygame.image.load(os.path.join("dateien
 playerlinksImg = pygame.transform.scale(pygame.image.load(os.path.join("dateien", "player_links.png")),(feld_pixel, feld_pixel))
 playerhit_image = pygame.transform.scale(pygame.image.load(os.path.join("dateien", "player_hit.png")),(feld_pixel, feld_pixel))
 
+player_godmodeImg = pygame.transform.scale(pygame.image.load(os.path.join("dateien", "player_godmode.png")),(feld_pixel,feld_pixel))
+
+player_godmodeImg32 = pygame.image.load(os.path.join("dateien", "player_godmode.png"))
 playervorneImg32 = pygame.image.load(os.path.join("dateien", "player_vorne.png"))
 playerobenImg32 = pygame.image.load(os.path.join("dateien", "player_oben.png"))
 playeruntenImg32 = pygame.image.load(os.path.join("dateien", "player_unten.png"))

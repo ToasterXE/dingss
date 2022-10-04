@@ -1,4 +1,5 @@
 from threading import Thread
+from numpy import true_divide
 import pygame, os
 from maps import *
 from player import Player
@@ -790,10 +791,14 @@ class Level:        #dieser teil ist wichtig
         self.camAbstand = pygame.math.Vector2()
         self.end = False
         self.punkte = 0
+        self.gegner_moving = 0
         self.bombenplatziert = 0
         self.objekte_eingesammelt = 0
         self.sprengbarescount = 0
-        self.spielerhp = 10 
+        self.bombeverstalt = 0
+        self.spielerhp = 10
+        self.godmode = False
+        self.spielerhpalt = 0
         bombenanzahl = 3
         gegner_eliminiert = 0
         gegner = 0
@@ -878,11 +883,12 @@ class Level:        #dieser teil ist wichtig
         #print (bombenart, self.bombenboostcounter)
         global bombenanzahl
 
+        self.gegner_moving = 0
         for alien in alienSprites:
-            if alien.rect.top - self.spieler.rect.top < 900 and alien.rect.top - self.spieler.rect.top > -900:
-                if alien.rect.left - self.spieler.rect.left < 1200 and alien.rect.left - self.spieler.rect.left > -1200:
+            if alien.rect.top - self.camAbstand.y <= 1000 and alien.rect.top - self.camAbstand.y > -100:
+                if alien.rect.left - self.camAbstand.x < 1300 and alien.rect.left - self.camAbstand.x > -100:
                     alien.move()
-
+                    self.gegner_moving += 1
             for explosion in explosionSprites:
                 if alien.rect.colliderect(explosion.rect):
                     if alien.hit == False:
@@ -1085,10 +1091,28 @@ class Level:        #dieser teil ist wichtig
                 e.explode()
                 self.infofeld.bombe_explode()
                 e.update()
-        
+
+
+    def godmode_update(self):
+        global bombe_verstärkung
+        if self.godmode:
+            self.godmode = False
+            bombe_verstärkung = self.bombeverstalt
+            self.spielerhp = self.spielerhpalt
+            self.spieler.godmode = False
+            self.spieler.godmode = False
+        else:
+            self.godmode = True
+            self.bombeverstalt = bombe_verstärkung
+            bombe_verstärkung = 4
+            self.spielerhpalt = self.spielerhp
+            self.spielerhp = 10000
+            self.spieler.godmode = True
+            self.infofeld.godmode = True
 
     def run(self):
-        print(gegner)
+        #print(self.gegner_moving)
+        #print(gegner)
         #print(self.spielerhp, self.spieler.hp)
         #print (explosionsListe)
         #print(bombenanzahl)
