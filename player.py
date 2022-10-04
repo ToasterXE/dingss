@@ -149,6 +149,7 @@ class Player(pygame.sprite.Sprite):
                             self.rect.left += hinderniss.rect.right - self.rect.left
         else:
             self.image = player_godmodeImg
+            self.image32 = player32_godmodeImg
     def hp_update(self):
         if self.hit == True:
                 self.hpcounter += 1

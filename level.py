@@ -1103,12 +1103,14 @@ class Level:        #dieser teil ist wichtig
             self.godmode = False
             bombe_verstärkung = self.bombeverstalt
             self.spielerhp = self.spielerhpalt
+            self.infofeld.update_bombenart(self.bombeverstalt)
             self.spieler.godmode = False
             self.spieler.godmode = False
         else:
             self.godmode = True
             self.bombeverstalt = bombe_verstärkung
             bombe_verstärkung = 4
+            self.infofeld.update_bombenart(4)
             self.spielerhpalt = self.spielerhp
             self.hp = 10000
             self.spieler.speed = feld_pixel / 4

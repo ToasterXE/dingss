@@ -128,6 +128,7 @@ alien3Img = pygame.transform.scale(pygame.image.load((os.path.join("dateien","al
 alien3Img_hit = pygame.transform.scale(pygame.image.load((os.path.join("dateien","alien3_hit.png"))),(feld_pixel-3,feld_pixel-3))
 
 feld_pixel = 32
+player32_godmodeImg = pygame.transform.scale(pygame.image.load(os.path.join("dateien", "player_godmode.png")),(feld_pixel,feld_pixel))
 bombeImg1_32verstärkung1  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe1_verstärkung1.png" )),(feld_pixel, feld_pixel))
 bombeImg2_32verstärkung1  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe2_verstärkung1.png" )),(feld_pixel, feld_pixel))
 bombeImg3_32verstärkung1  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe3_verstärkung1.png" )),(feld_pixel, feld_pixel))
@@ -228,3 +229,5 @@ bombenSpritesverst4 = [bombeImg1_32verstärkung4, bombeImg2_32verstärkung4,bomb
 bombeImg7_32verstärkung4,bombeImg8_32verstärkung4,bombeImg9_32verstärkung4,bombeImg10_32verstärkung4,bombeImg11_32verstärkung4,bombeImg12_32verstärkung4]
 
 bomben32Sprites = [bombe32Img1,bombe32Img2,bombe32Img3,bombe32Img4,bombe32Img5,bombe32Img6,bombe32Img7,bombe32Img8,bombe32Img9,bombe32Img10,bombe32Img11,bombe32Img12]
+
+explosionspritese = [bomben32Sprites, bombenSpritesverst1, bombenSpritesverst2, bombenSpritesverst3, bombenSpritesverst4]

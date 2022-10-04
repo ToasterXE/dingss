@@ -1,12 +1,12 @@
 import pygame
 from einstellungen import *
-from bilder import lebensanzeige,speed_potionImg32, slowness_potionImg32, counterleiste, bombe_objekt32Img, bomben32Sprites, verstärkung_leerImg, bombeboost_32Img, bomben_objekte
+from bilder import lebensanzeige,speed_potionImg32, explosionspritese, slowness_potionImg32, counterleiste, bombe_objekt32Img, bomben32Sprites, verstärkung_leerImg, bombeboost_32Img, bomben_objekte
 pygame.font.init()
 schrift20 = pygame.font.SysFont("candara", 40)
 animiertebomben = 0
 infoexplosionsliste = []
 explodierendesachen = []
-bombenExplosionsSprites = bomben32Sprites
+bombenExplosionsSprites = explosionspritese[0]
 bombenObjektImg = bomben_objekte[0]
 
 class infofeldbombe(pygame.sprite.Sprite):
@@ -142,8 +142,9 @@ class infofeld():
                 liste = False
 
     def update_bombenart(self, bombenart):
-        global bombenObjektImg
+        global bombenObjektImg, bombenExplosionsSprites
         bombenObjektImg = bomben_objekte[bombenart]
+        bombenExplosionsSprites = explosionspritese[bombenart]
         for bombe in infofeldexplosionen:
             bombe.image = bombenObjektImg        
 
