@@ -128,6 +128,58 @@ alien3Img = pygame.transform.scale(pygame.image.load((os.path.join("dateien","al
 alien3Img_hit = pygame.transform.scale(pygame.image.load((os.path.join("dateien","alien3_hit.png"))),(feld_pixel-3,feld_pixel-3))
 
 feld_pixel = 32
+bombeImg1_32verstärkung1  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe1_verstärkung1.png" )),(feld_pixel, feld_pixel))
+bombeImg2_32verstärkung1  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe2_verstärkung1.png" )),(feld_pixel, feld_pixel))
+bombeImg3_32verstärkung1  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe3_verstärkung1.png" )),(feld_pixel, feld_pixel))
+bombeImg4_32verstärkung1  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe4_verstärkung1.png" )),(feld_pixel, feld_pixel))
+bombeImg5_32verstärkung1  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe5_verstärkung1.png" )),(feld_pixel, feld_pixel))
+bombeImg6_32verstärkung1  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe6_verstärkung1.png" )),(feld_pixel, feld_pixel))
+bombeImg7_32verstärkung1  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe7_verstärkung1.png" )),(feld_pixel, feld_pixel))
+bombeImg8_32verstärkung1  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe8_verstärkung1.png" )),(feld_pixel, feld_pixel))
+bombeImg9_32verstärkung1  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe9_verstärkung1.png" )),(feld_pixel, feld_pixel))
+bombeImg10_32verstärkung1 = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe10_verstärkung1.png")),(feld_pixel, feld_pixel))
+bombeImg11_32verstärkung1 = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe11_verstärkung1.png")),(feld_pixel, feld_pixel))
+bombeImg12_32verstärkung1 = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe12_verstärkung1.png")),(feld_pixel, feld_pixel))
+
+bombeImg1_32verstärkung2  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe1_verstärkung2.png" )),(feld_pixel, feld_pixel))
+bombeImg2_32verstärkung2  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe2_verstärkung2.png" )),(feld_pixel, feld_pixel))
+bombeImg3_32verstärkung2  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe3_verstärkung2.png" )),(feld_pixel, feld_pixel))
+bombeImg4_32verstärkung2  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe4_verstärkung2.png" )),(feld_pixel, feld_pixel))
+bombeImg5_32verstärkung2  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe5_verstärkung2.png" )),(feld_pixel, feld_pixel))
+bombeImg6_32verstärkung2  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe6_verstärkung2.png" )),(feld_pixel, feld_pixel))
+bombeImg7_32verstärkung2  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe7_verstärkung2.png" )),(feld_pixel, feld_pixel))
+bombeImg8_32verstärkung2  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe8_verstärkung2.png" )),(feld_pixel, feld_pixel))
+bombeImg9_32verstärkung2  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe9_verstärkung2.png" )),(feld_pixel, feld_pixel))
+bombeImg10_32verstärkung2 = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe10_verstärkung2.png")),(feld_pixel, feld_pixel))
+bombeImg11_32verstärkung2 = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe11_verstärkung2.png")),(feld_pixel, feld_pixel))
+bombeImg12_32verstärkung2 = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe12_verstärkung2.png")),(feld_pixel, feld_pixel))
+
+bombeImg1_32verstärkung3  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe1_verstärkung3.png" )),(feld_pixel, feld_pixel))
+bombeImg2_32verstärkung3  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe2_verstärkung3.png" )),(feld_pixel, feld_pixel))
+bombeImg3_32verstärkung3  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe3_verstärkung3.png" )),(feld_pixel, feld_pixel))
+bombeImg4_32verstärkung3  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe4_verstärkung3.png" )),(feld_pixel, feld_pixel))
+bombeImg5_32verstärkung3  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe5_verstärkung3.png" )),(feld_pixel, feld_pixel))
+bombeImg6_32verstärkung3  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe6_verstärkung3.png" )),(feld_pixel, feld_pixel))
+bombeImg7_32verstärkung3  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe7_verstärkung3.png" )),(feld_pixel, feld_pixel))
+bombeImg8_32verstärkung3  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe8_verstärkung3.png" )),(feld_pixel, feld_pixel))
+bombeImg9_32verstärkung3  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe9_verstärkung3.png" )),(feld_pixel, feld_pixel))
+bombeImg10_32verstärkung3 = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe10_verstärkung3.png")),(feld_pixel, feld_pixel))
+bombeImg11_32verstärkung3 = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe11_verstärkung3.png")),(feld_pixel, feld_pixel))
+bombeImg12_32verstärkung3 = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe12_verstärkung3.png")),(feld_pixel, feld_pixel))
+
+bombeImg1_32verstärkung4  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe1_verstärkung4.png" )),(feld_pixel, feld_pixel))
+bombeImg2_32verstärkung4  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe2_verstärkung4.png" )),(feld_pixel, feld_pixel))
+bombeImg3_32verstärkung4  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe3_verstärkung4.png" )),(feld_pixel, feld_pixel))
+bombeImg4_32verstärkung4  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe4_verstärkung4.png" )),(feld_pixel, feld_pixel))
+bombeImg5_32verstärkung4  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe5_verstärkung4.png" )),(feld_pixel, feld_pixel))
+bombeImg6_32verstärkung4  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe6_verstärkung4.png" )),(feld_pixel, feld_pixel))
+bombeImg7_32verstärkung4  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe7_verstärkung4.png" )),(feld_pixel, feld_pixel))
+bombeImg8_32verstärkung4  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe8_verstärkung4.png" )),(feld_pixel, feld_pixel))
+bombeImg9_32verstärkung4  = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe9_verstärkung4.png" )),(feld_pixel, feld_pixel))
+bombeImg10_32verstärkung4 = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe10_verstärkung4.png")),(feld_pixel, feld_pixel))
+bombeImg11_32verstärkung4 = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe11_verstärkung4.png")),(feld_pixel, feld_pixel))
+bombeImg12_32verstärkung4 = pygame.transform.scale(pygame.image.load(os.path.join("bomben", "bombe12_verstärkung4.png")),(feld_pixel, feld_pixel))
+
 verstärkung_leerImg = pygame.image.load(os.path.join("dateien", "verstärkung_leer.png"))
 objekt_leerImg = pygame.transform.scale(pygame.image.load(os.path.join("dateien", "objekt_leer.png")),(feld_pixel,feld_pixel))
 bombeboost_32Img = pygame.transform.scale(pygame.image.load(os.path.join("dateien", "bombe_verstärkung.png")),(feld_pixel,feld_pixel))
@@ -163,24 +215,16 @@ feld_pixel = feld_pixele
 
 bomben_objekte = [bombe_objekt32Img, bombe_objekt_1, bombe_objekt_2, bombe_objekt_3, bombe_objekt_4, bombe_objekt_4]
 
-bomben32Sprites = []
-bomben32Sprites.append(bombe32Img1)
-bomben32Sprites.append(bombe32Img2)
-bomben32Sprites.append(bombe32Img3)
-bomben32Sprites.append(bombe32Img4)
-bomben32Sprites.append(bombe32Img5)
-bomben32Sprites.append(bombe32Img6)
-bomben32Sprites.append(bombe32Img7)
-bomben32Sprites.append(bombe32Img8)
-bomben32Sprites.append(bombe32Img9)
-bomben32Sprites.append(bombe32Img10)
-bomben32Sprites.append(bombe32Img11)
-bomben32Sprites.append(bombe32Img12)
-bomben32Sprites.append(explosions32Img1)
-bomben32Sprites.append(explosions32Img2)
-bomben32Sprites.append(explosions32Img4)
-bomben32Sprites.append(explosions32Img5)
-bomben32Sprites.append(explosions32Img7)
-bomben32Sprites.append(explosions32Img8)
-bomben32Sprites.append(explosions32Img10)
-bomben32Sprites.append(explosions32Img11)
+bombenSpritesverst1 = [bombeImg1_32verstärkung1, bombeImg2_32verstärkung1,bombeImg3_32verstärkung1,bombeImg4_32verstärkung1,bombeImg5_32verstärkung1,bombeImg6_32verstärkung1,
+bombeImg7_32verstärkung1,bombeImg8_32verstärkung1,bombeImg9_32verstärkung1,bombeImg10_32verstärkung1,bombeImg11_32verstärkung1,bombeImg12_32verstärkung1]
+
+bombenSpritesverst2 = [bombeImg1_32verstärkung2, bombeImg2_32verstärkung2,bombeImg3_32verstärkung2,bombeImg4_32verstärkung2,bombeImg5_32verstärkung2,bombeImg6_32verstärkung2,
+bombeImg7_32verstärkung2,bombeImg8_32verstärkung2,bombeImg9_32verstärkung2,bombeImg10_32verstärkung2,bombeImg11_32verstärkung2,bombeImg12_32verstärkung2]
+
+bombenSpritesverst3 = [bombeImg1_32verstärkung3, bombeImg2_32verstärkung3,bombeImg3_32verstärkung3,bombeImg4_32verstärkung3,bombeImg5_32verstärkung3,bombeImg6_32verstärkung3,
+bombeImg7_32verstärkung3,bombeImg8_32verstärkung3,bombeImg9_32verstärkung3,bombeImg10_32verstärkung3,bombeImg11_32verstärkung3,bombeImg12_32verstärkung3]
+
+bombenSpritesverst4 = [bombeImg1_32verstärkung4, bombeImg2_32verstärkung4,bombeImg3_32verstärkung4,bombeImg4_32verstärkung4,bombeImg5_32verstärkung4,bombeImg6_32verstärkung4,
+bombeImg7_32verstärkung4,bombeImg8_32verstärkung4,bombeImg9_32verstärkung4,bombeImg10_32verstärkung4,bombeImg11_32verstärkung4,bombeImg12_32verstärkung4]
+
+bomben32Sprites = [bombe32Img1,bombe32Img2,bombe32Img3,bombe32Img4,bombe32Img5,bombe32Img6,bombe32Img7,bombe32Img8,bombe32Img9,bombe32Img10,bombe32Img11,bombe32Img12]

@@ -773,6 +773,8 @@ def bombenart_update():
     bombe_verstärkung += 1
     if bombe_verstärkung >= 4:
         bombe_verstärkung = 4
+    
+
 class Level:        #dieser teil ist wichtig
     def __init__(self, map):
         global bombenanzahl, gegner_eliminiert, gegner, bombenart, bombe_verstärkung, explosionsmap
@@ -815,6 +817,7 @@ class Level:        #dieser teil ist wichtig
             bombenart += 1
             self.bombenboostcounter = 0
             bombenart_update()
+            self.infofeld.update_bombenart(bombenart)
 
     def create_map(self):
         global gegner
@@ -920,73 +923,74 @@ class Level:        #dieser teil ist wichtig
                     self.spieler.hit = True
                     self.spieler.damage_taken = 1
 
-
-        for wegraeumbares in wegraeumbareSprites:
-            if self.spieler.rect.colliderect(wegraeumbares.rect):
-                wegraeumbares.delete()
-
-
-        for explosion in explosionSprites:
-            if self.spieler.rect.colliderect(explosion.rect):
-                if self.spieler.hit == False:
-                    self.spieler.hit = True
-                    self.spieler.damage_taken = explosion.damage
-
+        if not self.godmode:
             for wegraeumbares in wegraeumbareSprites:
-                if wegraeumbares.rect.colliderect(explosion.rect):
+                if self.spieler.rect.colliderect(wegraeumbares.rect):
                     wegraeumbares.delete()
-    
-            for sprengbares in sprengbaresSprites:
-                if sprengbares.rect.colliderect(explosion.rect):
-                    sprengbares.delete()
 
-        for hpboost in hpboostSprites:
-            if self.spieler.rect.colliderect(hpboost.rect):
-                hpboost.delete()
-                self.objekte_eingesammelt += 1
-                self.spieler.hp += 1
 
-        for speed_pot in speedSprites:
-            if self.spieler.rect.colliderect(speed_pot.rect):
-                speed_pot.delete()
-                self.objekte_eingesammelt += 1
-                self.spieler.speed += 2
-                potion_counter([speedcounterSprites], 2)
+            for explosion in explosionSprites:
+                if self.spieler.rect.colliderect(explosion.rect):
+                    if self.spieler.hit == False:
+                        self.spieler.hit = True
+                        self.spieler.damage_taken = explosion.damage
 
-        for slowness_pot in slownessSprites:
-            if self.spieler.rect.colliderect(slowness_pot.rect):
-                slowness_pot.delete()
-                self.objekte_eingesammelt += 1
-                if self.spieler.speed > 2:
-                    self.spieler.speed -= 2
-                    potion_counter([slownesscounterSprites], 2)
-                else:
-                    self.spieler.speed = 1
-                    potion_counter([slownesscounterSprites],1)
+                for wegraeumbares in wegraeumbareSprites:
+                    if wegraeumbares.rect.colliderect(explosion.rect):
+                        wegraeumbares.delete()
+        
+                for sprengbares in sprengbaresSprites:
+                    if sprengbares.rect.colliderect(explosion.rect):
+                        sprengbares.delete()
 
-        for bombeboost in bombeboostSprites:
-            if self.spieler.rect.colliderect(bombeboost.rect):
-                bombeboost.delete()
-                self.objekte_eingesammelt += 1
-                self.infofeld.bombenboostcounter += 1
-                self.bombenboostcounter += 1
-                self.update_bombenboost()
+            for hpboost in hpboostSprites:
+                if self.spieler.rect.colliderect(hpboost.rect):
+                    hpboost.delete()
+                    self.objekte_eingesammelt += 1
+                    self.spieler.hp += 1
 
-        for counter in speedcounterSprites:
-            counter.count()
-            if counter.wert == 600:
-                self.spieler.speed -= counter.speed 
-                counter.delete()
+            for speed_pot in speedSprites:
+                if self.spieler.rect.colliderect(speed_pot.rect):
+                    speed_pot.delete()
+                    self.objekte_eingesammelt += 1
+                    self.spieler.speed += 2
+                    potion_counter([speedcounterSprites], 2)
 
-        for counter in slownesscounterSprites:
-            counter.count()
-            if counter.wert == 600:
-                self.spieler.speed += counter.speed
-                counter.delete()
+            for slowness_pot in slownessSprites:
+                if self.spieler.rect.colliderect(slowness_pot.rect):
+                    slowness_pot.delete()
+                    self.objekte_eingesammelt += 1
+                    if self.spieler.speed > 2:
+                        self.spieler.speed -= 2
+                        potion_counter([slownesscounterSprites], 2)
+                    else:
+                        self.spieler.speed = 1
+                        potion_counter([slownesscounterSprites],1)
+
+            for bombeboost in bombeboostSprites:
+                if self.spieler.rect.colliderect(bombeboost.rect):
+                    bombeboost.delete()
+                    self.objekte_eingesammelt += 1
+                    self.infofeld.bombenboostcounter += 1
+                    self.bombenboostcounter += 1
+                    self.update_bombenboost()
+
+            for counter in speedcounterSprites:
+                counter.count()
+                if counter.wert == 600:
+                    self.spieler.speed -= counter.speed 
+                    counter.delete()
+
+            for counter in slownesscounterSprites:
+                counter.count()
+                if counter.wert == 600:
+                    self.spieler.speed += counter.speed
+                    counter.delete()
 
 
         if self.spieler.speed <= 0:
             self.spieler.speed = 2
+
 
 
         for bombe in bombenobjekteSprites:
@@ -1106,7 +1110,8 @@ class Level:        #dieser teil ist wichtig
             self.bombeverstalt = bombe_verstärkung
             bombe_verstärkung = 4
             self.spielerhpalt = self.spielerhp
-            self.spielerhp = 10000
+            self.hp = 10000
+            self.spieler.speed = feld_pixel / 4
             self.spieler.godmode = True
             self.infofeld.godmode = True
 

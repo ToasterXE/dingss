@@ -169,4 +169,4 @@ def level_main(map):
      #   init_counter += 1
 if run == True:
     #main_menu()
-    level_main(benediktslevel7)
+    level_main(Level4_map)

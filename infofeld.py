@@ -6,6 +6,8 @@ schrift20 = pygame.font.SysFont("candara", 40)
 animiertebomben = 0
 infoexplosionsliste = []
 explodierendesachen = []
+bombenExplosionsSprites = bomben32Sprites
+bombenObjektImg = bomben_objekte[0]
 
 class infofeldbombe(pygame.sprite.Sprite):
     def __init__(self, xabstand, groups, bombenpos, fenster):
@@ -19,19 +21,19 @@ class infofeldbombe(pygame.sprite.Sprite):
         self.end = False
         self.num = xabstand - 1
         infoexplosionsliste.insert(self.num, self)
-        self.image = bombe_objekt32Img
+        self.image = bombenObjektImg
         self.rect = self.image.get_rect(topleft = (self.bombenpos.x + self.xabstand * 33, self.bombenpos.y + self.yabstand * 33))
 
     def explode(self):
         self.end = False
         infoexplosionsliste[self.num] = 0
-        if not int(self.counter) >= len(bomben32Sprites):
-            self.image =  bomben32Sprites[int(self.counter)]
+        if not int(self.counter) >= len(bombenExplosionsSprites):
+            self.image =  bombenExplosionsSprites[int(self.counter)]
             self.counter += 0.2
         else:
             self.end = True
             self.counter = 0
-            self.image = bombe_objekt32Img
+            self.image = bombenObjektImg
             infoexplosionsliste[self.num] = self
 
 class infofeld():
@@ -139,6 +141,9 @@ class infofeld():
             else:
                 liste = False
 
-
-        
+    def update_bombenart(self, bombenart):
+        global bombenObjektImg
+        bombenObjektImg = bomben_objekte[bombenart]
+        for bombe in infofeldexplosionen:
+            bombe.image = bombenObjektImg        
 
