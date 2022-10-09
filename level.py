@@ -57,23 +57,39 @@ class potion_counter(pygame.sprite.Sprite): #keine sprites
     def delete(self):
         self.kill()
 
-
-
+def neben_explosion(pos, wert, num = 0):
+    if pos.x + wert[0] < len(explosionsmap) and pos.y + wert[1] < len(explosionsmap[0]):
+        # print("e",pos.x+wert[0], pos.y+wert[1])
+        if explosionsmap[int(pos.x + wert[0])][int(pos.y + wert[1])] == 8:
+            return True
+        else:
+            if num == 3:
+                return False
+            e = wert[0]
+            wert[0] = wert[1]
+            wert[1] = e *-1
+            return neben_explosion(pos,wert, num+1)
 
 class expAnimation(pygame.sprite.Sprite):    
-    def __init__(self,groups,pos,map,damage):
+    def __init__(self,groups,pos,map,damage, num):
         super().__init__(groups)
-        
         self.levelmap = map
         self.pos = pos
         self.end = False
         self.mapPos = pygame.math.Vector2(int(pos.y/feld_pixel),int(pos.x/feld_pixel))
+        # print(int(pos.y/feld_pixel), len(explosionsmap), int(pos.x/feld_pixel), len(explosionsmap[0]))
         if int(pos.y/feld_pixel) >= len(explosionsmap) or int(pos.x/feld_pixel) >= len(explosionsmap[0]):
             self.kill()
         else:
-            self.feld = explosionsmap[int(self.mapPos.x)][int(self.mapPos.y)]
+            #self.feld = explosionsmap[int(self.mapPos.x)][int(self.mapPos.y)]
             if explosionsmap[int(self.mapPos.x)][int(self.mapPos.y)] == 1 or explosionsmap[int(self.mapPos.x)][int(self.mapPos.y)] == 8:  #keine explosionen auf unveränderbaren feldern
                 self.kill()
+            if num > 0:
+                if not neben_explosion(self.mapPos, [1,0]):
+                #if not (explosionsmap[int(self.mapPos.x+1)][int(self.mapPos.y)] == 8 or explosionsmap[int(self.mapPos.x)][int(self.mapPos.y+1)] == 8 or explosionsmap[int(self.mapPos.x-1)][int(self.mapPos.y)] == 8 or explosionsmap[int(self.mapPos.x)][int(self.mapPos.y-1)] == 8):
+                    print("E")
+                    self.kill()
+
             self.feld = explosionsmap[int(self.mapPos.x)][int(self.mapPos.y)]
             explosionsmap[int(self.mapPos.x)][int(self.mapPos.y)] = 8
 
@@ -152,7 +168,7 @@ class bombe_verstärkt4(pygame.sprite.Sprite):
             i = 0
             while i <= 88:
                 expAnimation([gutereSprites, explosionSprites, self.explosionen],
-                (self.pos + (sdtListeNamen[i].xabstand * feld_pixel, sdtListeNamen[i].yabstand * feld_pixel)),self.levelmap,self.damage)
+                (self.pos + (sdtListeNamen[i].xabstand * feld_pixel, sdtListeNamen[i].yabstand * feld_pixel)),self.levelmap,self.damage,sdtListeNamen[i].num)
                 i += 1
         if self.exploding:
             self.image = self.bombenSprites[int(self.counter)]
@@ -199,7 +215,7 @@ class bombe_verstärkt3(pygame.sprite.Sprite):
             i = 0
             while i <= 36:
                 expAnimation([gutereSprites, explosionSprites, self.explosionen],
-                (self.pos + (sdtListeNamen[i].xabstand * feld_pixel, sdtListeNamen[i].yabstand * feld_pixel)),self.levelmap,self.damage)
+                (self.pos + (sdtListeNamen[i].xabstand * feld_pixel, sdtListeNamen[i].yabstand * feld_pixel)),self.levelmap,self.damage,sdtListeNamen[i].num)
                 i += 1
         if self.exploding:
             self.image = self.bombenSprites[int(self.counter)]
@@ -247,7 +263,7 @@ class bombe_verstärkt2(pygame.sprite.Sprite):
             i = 0
             while i <= 20:
                 expAnimation([gutereSprites, explosionSprites, self.explosionen],
-                (self.pos + (sdtListeNamen[i].xabstand * feld_pixel, sdtListeNamen[i].yabstand * feld_pixel)),self.levelmap,self.damage)
+                (self.pos + (sdtListeNamen[i].xabstand * feld_pixel, sdtListeNamen[i].yabstand * feld_pixel)),self.levelmap,self.damage,sdtListeNamen[i].num)
                 i += 1
         if self.exploding:
             self.image = self.bombenSprites[int(self.counter)]
@@ -299,7 +315,7 @@ class bombe_verstärkt1(pygame.sprite.Sprite):
             i = 0
             while i <= 4:
                 expAnimation([gutereSprites, explosionSprites, self.explosionen],
-                (self.pos + (sdtListeNamen[i].xabstand * feld_pixel, sdtListeNamen[i].yabstand * feld_pixel)),self.levelmap,self.damage)
+                (self.pos + (sdtListeNamen[i].xabstand * feld_pixel, sdtListeNamen[i].yabstand * feld_pixel)),self.levelmap,self.damage,sdtListeNamen[i].num)
                 i += 1
         if self.exploding:
             self.image = self.bombenSprites[int(self.counter)]
@@ -355,7 +371,7 @@ class bombe(pygame.sprite.Sprite):
             
             i = 0
             while i <= 4:
-                expAnimation([gutereSprites, explosionSprites, self.explosionen],(self.pos + (sdtListeNamen[i].xabstand * feld_pixel, sdtListeNamen[i].yabstand * feld_pixel)),self.levelmap,self.damage)
+                expAnimation([gutereSprites, explosionSprites, self.explosionen],(self.pos + (sdtListeNamen[i].xabstand * feld_pixel, sdtListeNamen[i].yabstand * feld_pixel)),self.levelmap,self.damage, sdtListeNamen[i].num)
                 i += 1
 
         if self.exploding == True:            

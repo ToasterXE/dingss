@@ -170,4 +170,4 @@ def level_main(map):
      #   init_counter += 1
 if run == True:
     #main_menu()
-    level_main(Level6_map)
+    level_main(test21323)
