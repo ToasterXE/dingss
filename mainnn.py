@@ -1,4 +1,3 @@
-from turtle import window_width
 import pygame
 from maps import *
 from level import *
@@ -19,6 +18,7 @@ updatelist = []
 class button():
     def __init__(self, name, links, oben, breite, hoehe, teste, nummer):
         self.name = name
+        self.teste = teste
         if teste:
             self.num = nummer
             updatelist.append(self)
@@ -45,14 +45,16 @@ class button():
         pygame.draw.rect(window, self.color2, self.linie_unten)
         window.blit(self.schrift, self.schrift_rect)
         self.color = (50,50,50)
-        if not selected_levelreihenfolge == levelreihenfolgen[self.num]:
-            self.reaction = False
+        if self.teste:
+            if not selected_levelreihenfolge == levelreihenfolgen[self.num]:
+                self.reaction = False
         if self.rect.collidepoint(maus_pos):
             self.color = self.col_hover
             if pygame.mouse.get_pressed()[0] == 1:
                 if self.reaction == False:
-                    selected_levelreihenfolge = levelreihenfolgen[self.num]
-                    update_minimapSprites()
+                    if self.teste:
+                        selected_levelreihenfolge = levelreihenfolgen[self.num]
+                        update_minimapSprites()
                     self.reaction = True
                     self.color = self.color2
 
@@ -87,12 +89,24 @@ hauptmenu = button("Hauptmenü", 500, 700, 600, 100, False, 0)
 spielstart = False
 run = True
 minimapSprites = pygame.sprite.Group()
+nextxabstand = 35
+maxmaphoehe = 0
+nextyabstand = 150
 
-def create_minimap(level, pos):
+def create_minimap(level):
+    global nextxabstand, nextyabstand, maxmaphoehe
+    mapBreite = len(level[0]) * 12+1
+    mapHoehe = len(level) * 12 +1
+    if mapBreite + nextxabstand > 1585:
+        nextxabstand = 35
+        nextyabstand += maxmaphoehe + 35
+    else:
+        maxmaphoehe = max(maxmaphoehe, mapHoehe)
+
     for spalte_index, spalte in enumerate(level):
         for zeile_index, spalte in enumerate(spalte):
-            x = zeile_index * 12
-            y = spalte_index * 12
+            x = zeile_index * 12 + nextxabstand
+            y = spalte_index * 12 + nextyabstand
             if spalte == 1:
                 border((x,y),[minimapSprites])
             if spalte == 5:
@@ -104,7 +118,7 @@ def create_minimap(level, pos):
             if spalte == 10:
                 alien1((x,y),[minimapSprites])
             if spalte == 11:
-                alien2((x,y),[minimapSprites])
+                alien2((x,y),[minimapSprites],window)
             if spalte == 12:
                 alien3((x,y),[minimapSprites])
             if spalte == 50:
@@ -115,22 +129,36 @@ def create_minimap(level, pos):
                 speed_potion((x,y),[minimapSprites])
             if spalte == 53:
                 hp_boost((x,y),[minimapSprites])
+    nextxabstand += mapBreite + 35
+
 
 
 def update_minimapSprites():
+    global nextxabstand, nextyabstand, maxmaphoehe
+    nextxabstand = 35
+    nextyabstand = 150
+    maxmaphoehe = 0
+    minimapSprites.empty()
     for level in selected_levelreihenfolge:
-        create_minimap(level, pos)
+        create_minimap(level)
 
 elementcounter = 0
 for element in levelreihenfolgen:
-    button(str(element),15 + (realFensterBreite-30 / len(levelreihenfolgen)) * elementcounter, 100, realFensterBreite-30/len(levelreihenfolgen),20,True, elementcounter)
+    button(str(elementcounter),15 + ((realFensterBreite-30) / (len(levelreihenfolgen) +1)) * elementcounter, 100, (realFensterBreite-30) / (len(levelreihenfolgen)+1),20,True, elementcounter)
     elementcounter += 1
+print(elementcounter)
 def levelauswahl_main():
+    run = True
     while run:
         window.fill((20,20,20))
-        pygame.display.update()
-        minimapSprites.draw()
+        for sprite in minimapSprites:
+            sprite.image = pygame.transform.scale(sprite.image,(12,12))
+        minimapSprites.draw(window)
+        for button in updatelist:
+            button.update()
 
+
+        pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -234,5 +262,6 @@ def level_main(map):
 
      #   init_counter += 1
 if run == True:
-    main_menu()
-    # level_main(test21323)
+    levelauswahl_main()
+    # main_menu()
+    #level_main(benediktslevel6)

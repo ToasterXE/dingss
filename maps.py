@@ -429,7 +429,7 @@ Level8_map = [
 [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
 [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
 ]
-benediktslevel = [benediktslevel1, benediktslevel2, benediktslevel3, benediktslevel4, benediktslevel5, benediktslevel6, benediktslevel7]
+benediktslevel = [benediktslevel2, benediktslevel3, benediktslevel4, benediktslevel5, benediktslevel6, benediktslevel7]
 starterlevel = [Level4_map, Level5_map, Level6_map, Level7_map, Level8_map]
 
 levelreihenfolgen = [starterlevel, benediktslevel]
