@@ -1,3 +1,4 @@
+from turtle import window_width
 import pygame
 from maps import *
 from level import *
@@ -14,9 +15,13 @@ auswahl_taste = pygame.K_l
 bomben_taste = pygame.K_p
 
 #wurde programmiert für die nutzung mit der maus, dann aber auf den Spielautomaten angepasst
+updatelist = []
 class button():
-    def __init__(self, name, links, oben, breite, hoehe):
+    def __init__(self, name, links, oben, breite, hoehe, teste, nummer):
         self.name = name
+        if teste:
+            self.num = nummer
+            updatelist.append(self)
         self.schrift = font.render(name, True, (230,230,230))
         self.schrift_rect = self.schrift.get_rect(center = (links + breite / 2, oben + hoehe / 2))
         self.linie_oben = pygame.Rect(links, oben, breite, 2)
@@ -31,6 +36,7 @@ class button():
         
 
     def update(self):
+        global selected_levelreihenfolge
         maus_pos = pygame.mouse.get_pos()
         pygame.draw.rect(window, self.color, self.rect)
         pygame.draw.rect(window, self.color2, self.linie_links)
@@ -39,11 +45,17 @@ class button():
         pygame.draw.rect(window, self.color2, self.linie_unten)
         window.blit(self.schrift, self.schrift_rect)
         self.color = (50,50,50)
+        if not selected_levelreihenfolge == levelreihenfolgen[self.num]:
+            self.reaction = False
         if self.rect.collidepoint(maus_pos):
             self.color = self.col_hover
             if pygame.mouse.get_pressed()[0] == 1:
-                self.reaction = True
-                self.color = self.color2
+                if self.reaction == False:
+                    selected_levelreihenfolge = levelreihenfolgen[self.num]
+                    update_minimapSprites()
+                    self.reaction = True
+                    self.color = self.color2
+
 
 clock = pygame.time.Clock()
 level_counter = 1
@@ -66,14 +78,63 @@ def level_count(zahl):
 
 
 
-#init_counter = 0        
-start = button("Start", realFensterBreite / 2 - 150, FensterHoehe / 2 - 50, 300, 100) 
-weiter = button("weiter", 600, 700, 400, 100)
-retry_button = button("nochmal versuchen", 400, 700, 800, 100)
-hauptmenu = button("Hauptmenü", 500, 700, 600, 100)
+#init_counter = 0
+selected_levelreihenfolge = levelreihenfolgen[0]        
+start = button("Start", realFensterBreite / 2 - 150, FensterHoehe / 2 - 50, 300, 100, False, 0) 
+weiter = button("weiter", 600, 700, 400, 100, False, 0)
+retry_button = button("nochmal versuchen", 400, 700, 800, 100,False,0)
+hauptmenu = button("Hauptmenü", 500, 700, 600, 100, False, 0)
 spielstart = False
 run = True
+minimapSprites = pygame.sprite.Group()
 
+def create_minimap(level, pos):
+    for spalte_index, spalte in enumerate(level):
+        for zeile_index, spalte in enumerate(spalte):
+            x = zeile_index * 12
+            y = spalte_index * 12
+            if spalte == 1:
+                border((x,y),[minimapSprites])
+            if spalte == 5:
+                spawnfeld((x,y),[minimapSprites])              
+            if spalte == 2:
+                sprengbares((x,y),[minimapSprites])
+            if spalte == 3:
+                wegraeumbares((x,y), [minimapSprites])
+            if spalte == 10:
+                alien1((x,y),[minimapSprites])
+            if spalte == 11:
+                alien2((x,y),[minimapSprites])
+            if spalte == 12:
+                alien3((x,y),[minimapSprites])
+            if spalte == 50:
+                bombe_objekt((x,y), [minimapSprites])        
+            if spalte == 51:
+                slowness_potion((x,y), [minimapSprites])
+            if spalte == 52:
+                speed_potion((x,y),[minimapSprites])
+            if spalte == 53:
+                hp_boost((x,y),[minimapSprites])
+
+
+def update_minimapSprites():
+    for level in selected_levelreihenfolge:
+        create_minimap(level, pos)
+
+elementcounter = 0
+for element in levelreihenfolgen:
+    button(str(element),15 + (realFensterBreite-30 / len(levelreihenfolgen)) * elementcounter, 100, realFensterBreite-30/len(levelreihenfolgen),20,True, elementcounter)
+    elementcounter += 1
+def levelauswahl_main():
+    while run:
+        window.fill((20,20,20))
+        pygame.display.update()
+        minimapSprites.draw()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
 
 def main_menu():
     global level_counter, spielstart, run
