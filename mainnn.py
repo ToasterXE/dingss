@@ -25,16 +25,25 @@ class button():
         self.linie_rechts = pygame.Rect((links + breite - 2), oben, 2, hoehe)
         self.rect = pygame.Rect(links, oben, breite, hoehe)
         self.color = (50,50,50)
+        self.col_hover = (40,40,40)
         self.color2 = (32,32,32)
-        self.true = False                                                                                                                                  
+        self.reaction = False                                                                                                                                  
+        
 
     def update(self):
+        maus_pos = pygame.mouse.get_pos()
         pygame.draw.rect(window, self.color, self.rect)
         pygame.draw.rect(window, self.color2, self.linie_links)
         pygame.draw.rect(window, self.color2, self.linie_oben)
         pygame.draw.rect(window, self.color2, self.linie_rechts)
         pygame.draw.rect(window, self.color2, self.linie_unten)
         window.blit(self.schrift, self.schrift_rect)
+        self.color = (50,50,50)
+        if self.rect.collidepoint(maus_pos):
+            self.color = self.col_hover
+            if pygame.mouse.get_pressed()[0] == 1:
+                self.reaction = True
+                self.color = self.color2
 
 clock = pygame.time.Clock()
 level_counter = 1
@@ -65,28 +74,23 @@ hauptmenu = button("Hauptmenü", 500, 700, 600, 100)
 spielstart = False
 run = True
 
+
 def main_menu():
     global level_counter, spielstart, run
     while run:
-        
-        for event in pygame.event.get():
-            
-            if event.type == pygame.KEYDOWN:
-                if event.key == auswahl_taste:
-                    spielstart = True 
-
-            if event.type == pygame.QUIT:
-                run = False
-                pygame.quit()
-
-        window.blit(hintergrundImg, (0,0))
+        window.fill((20,20,20))
 
         start.update()
         pygame.display.update()
 
-        if spielstart == True:   
+        if start.reaction == True:   
             level_main(level_count(level_counter))      #hier wird zu einem anderen main loop gewechselt 
 
+        for event in pygame.event.get():
+            
+            if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
 
 
 def level_main(map):
@@ -130,21 +134,21 @@ def level_main(map):
                 if level_counter < 3:
                     weiter.update()
                     if keys_pressed[auswahl_taste]:
-                        weiter.true = True
+                        weiter.reaction = True
                         level_counter += 1
                         level_main(level_count(level_counter))
             
                 elif level_counter >= 3:
                     hauptmenu.update()
                     if keys_pressed[auswahl_taste]:
-                        hauptmenu.true = True
+                        hauptmenu.reaction = True
                         level_counter += 0
                         main_menu()
 
             else:
                 retry_button.update()
                 if keys_pressed[auswahl_taste]:
-                    retry_button.true = True
+                    retry_button.reaction = True
                     level_main(level_count(level_counter))
 
         if level.end == False:
@@ -169,5 +173,5 @@ def level_main(map):
 
      #   init_counter += 1
 if run == True:
-    #main_menu()
-    level_main(test21323)
+    main_menu()
+    # level_main(test21323)

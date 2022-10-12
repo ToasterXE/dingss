@@ -87,7 +87,7 @@ class expAnimation(pygame.sprite.Sprite):
             if num > 0:
                 if not neben_explosion(self.mapPos, [1,0]):
                 #if not (explosionsmap[int(self.mapPos.x+1)][int(self.mapPos.y)] == 8 or explosionsmap[int(self.mapPos.x)][int(self.mapPos.y+1)] == 8 or explosionsmap[int(self.mapPos.x-1)][int(self.mapPos.y)] == 8 or explosionsmap[int(self.mapPos.x)][int(self.mapPos.y-1)] == 8):
-                    print("E")
+                    # print("E")
                     self.kill()
 
             self.feld = explosionsmap[int(self.mapPos.x)][int(self.mapPos.y)]
