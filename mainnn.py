@@ -2,7 +2,6 @@ import pygame
 from maps import *
 from level import *
 from einstellungen import *
-
 hintergrundImg = pygame.transform.scale(pygame.image.load((os.path.join("dateien", "hintergrund.png"))),(realFensterBreite,FensterHoehe))
 
 pygame.font.init()
@@ -13,9 +12,7 @@ font = pygame.font.SysFont("candara", 80)
 auswahl_taste = pygame.K_l
 bomben_taste = pygame.K_p
 
-#wurde programmiert für die nutzung mit der maus, dann aber auf den Spielautomaten angepasst
-updatelist = []
-class button():
+class levelselect_button():
     def __init__(self, name, links, oben, breite, hoehe, teste, nummer):
         self.name = name
         self.teste = teste
@@ -24,31 +21,27 @@ class button():
             updatelist.append(self)
         self.schrift = font.render(name, True, (230,230,230))
         self.schrift_rect = self.schrift.get_rect(center = (links + breite / 2, oben + hoehe / 2))
-        self.linie_oben = pygame.Rect(links, oben, breite, 2)
-        self.linie_links = pygame.Rect(links, oben, 2, hoehe)
-        self.linie_unten = pygame.Rect(links, (oben + hoehe - 2), breite, 2)
-        self.linie_rechts = pygame.Rect((links + breite - 2), oben, 2, hoehe)
-        self.rect = pygame.Rect(links, oben, breite, hoehe)
+        self.rect = pygame.Rect(links, oben - self.schrift_rect.height / 2, breite, self.schrift_rect.height)
         self.color = (50,50,50)
         self.col_hover = (40,40,40)
         self.color2 = (32,32,32)
         self.reaction = False                                                                                                                                  
-        
-
+        self.draw_schrift_rect = self.schrift.get_rect(center = (links + breite / 2, oben + hoehe / 2))
+        self.draw_rect = pygame.Rect(links, oben - self.schrift_rect.height / 2, breite, self.schrift_rect.height)
+   
     def update(self):
         global selected_levelreihenfolge
+        self.draw_rect.top = self.rect.top + scrollabstand
+        self.draw_schrift_rect.top = self.schrift_rect.top + scrollabstand
+        print(self.rect.top)
         maus_pos = pygame.mouse.get_pos()
-        pygame.draw.rect(window, self.color, self.rect)
-        pygame.draw.rect(window, self.color2, self.linie_links)
-        pygame.draw.rect(window, self.color2, self.linie_oben)
-        pygame.draw.rect(window, self.color2, self.linie_rechts)
-        pygame.draw.rect(window, self.color2, self.linie_unten)
-        window.blit(self.schrift, self.schrift_rect)
+        pygame.draw.rect(window, self.color, self.draw_rect,0,4)
+        window.blit(self.schrift, self.draw_schrift_rect)
         self.color = (50,50,50)
         if self.teste:
             if not selected_levelreihenfolge == levelreihenfolgen[self.num]:
                 self.reaction = False
-        if self.rect.collidepoint(maus_pos):
+        if self.draw_rect.collidepoint(maus_pos):
             self.color = self.col_hover
             if pygame.mouse.get_pressed()[0] == 1:
                 if self.reaction == False:
@@ -58,40 +51,20 @@ class button():
                     self.reaction = True
                     self.color = self.color2
 
-
-clock = pygame.time.Clock()
-level_counter = 1
-
-def level_count(zahl):
-    if zahl == 1:
-        return Level4_map  
-    
-    if zahl == 2:
-        return Level5_map
-    if zahl == 3:
-        return Level6_map
-    if zahl == 4:
-        return Level7_map
-    if zahl == 5:
-        return Level8_map
-    if zahl > 5:
-        zahl = 1
-        return (level_count(zahl))
-
-
-
 #init_counter = 0
-selected_levelreihenfolge = levelreihenfolgen[0]        
-start = button("Start", realFensterBreite / 2 - 150, FensterHoehe / 2 - 50, 300, 100, False, 0) 
-weiter = button("weiter", 600, 700, 400, 100, False, 0)
-retry_button = button("nochmal versuchen", 400, 700, 800, 100,False,0)
-hauptmenu = button("Hauptmenü", 500, 700, 600, 100, False, 0)
+start = levelselect_button("Start", realFensterBreite / 2 - 150, FensterHoehe / 2 - 50, 300, 100, False, 0) 
+weiter = levelselect_button("weiter", 600, 700, 400, 100, False, 0)
+retry_button = levelselect_button("nochmal versuchen", 400, 700, 800, 100,False,0)
+hauptmenu = levelselect_button("Hauptmenü", 500, 700, 600, 100, False, 0)
 spielstart = False
 run = True
 minimapSprites = pygame.sprite.Group()
+updatelist = []
+selected_levelreihenfolge = levelreihenfolgen[0]        
 nextxabstand = 35
 maxmaphoehe = 0
 nextyabstand = 150
+scrollabstand = 0
 
 def create_minimap(level):
     global nextxabstand, nextyabstand, maxmaphoehe
@@ -131,22 +104,20 @@ def create_minimap(level):
                 hp_boost((x,y),[minimapSprites])
     nextxabstand += mapBreite + 35
 
-
+scrollrect = pygame.rect.Rect(1525, 35, 50, nextyabstand)
 
 def update_minimapSprites():
-    global nextxabstand, nextyabstand, maxmaphoehe
+    global nextxabstand, nextyabstand, maxmaphoehe, selected_levelreihenfolge
     nextxabstand = 35
     nextyabstand = 150
     maxmaphoehe = 0
     minimapSprites.empty()
     for level in selected_levelreihenfolge:
         create_minimap(level)
+    scrollrect = pygame.rect.Rect(1525, 25, 50, nextyabstand)
 
-elementcounter = 0
-for element in levelreihenfolgen:
-    button(str(elementcounter),15 + ((realFensterBreite-30) / (len(levelreihenfolgen) +1)) * elementcounter, 100, (realFensterBreite-30) / (len(levelreihenfolgen)+1),20,True, elementcounter)
-    elementcounter += 1
-print(elementcounter)
+
+
 def levelauswahl_main():
     run = True
     while run:
@@ -156,13 +127,36 @@ def levelauswahl_main():
         minimapSprites.draw(window)
         for button in updatelist:
             button.update()
-
+        pygame.draw.rect(window,(50,50,50),scrollrect)
 
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
+
+elementcounter = 0
+for element in levelreihenfolgen:
+    levelselect_button(str(elementcounter), 15 + 15 * elementcounter + ((realFensterBreite-30) / (len(levelreihenfolgen) +1))  * elementcounter, 100, (realFensterBreite-30) / (len(levelreihenfolgen)+1),20,True, elementcounter)
+    elementcounter += 1
+#print(elementcounter)
+def level_count(zahl):
+    if zahl == 1:
+        return Level4_map  
+    
+    if zahl == 2:
+        return Level5_map
+    if zahl == 3:
+        return Level6_map
+    if zahl == 4:
+        return Level7_map
+    if zahl == 5:
+        return Level8_map
+    if zahl > 5:
+        zahl = 1
+        return (level_count(zahl))
+clock = pygame.time.Clock()
+level_counter = 1
 
 def main_menu():
     global level_counter, spielstart, run
@@ -257,11 +251,11 @@ def level_main(map):
                         level.dings()
         
             if event.type == pygame.QUIT:
-                pygame.quit()
                 run = False
+                pygame.quit()
 
      #   init_counter += 1
 if run == True:
     levelauswahl_main()
-    # main_menu()
+    #main_menu()
     #level_main(benediktslevel6)
