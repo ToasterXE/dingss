@@ -33,7 +33,6 @@ class levelselect_button():
         global selected_levelreihenfolge
         self.draw_rect.top = self.rect.top + scrollabstand
         self.draw_schrift_rect.top = self.schrift_rect.top + scrollabstand
-        print(self.rect.top)
         maus_pos = pygame.mouse.get_pos()
         pygame.draw.rect(window, self.color, self.draw_rect,0,4)
         window.blit(self.schrift, self.draw_schrift_rect)
@@ -63,11 +62,11 @@ updatelist = []
 selected_levelreihenfolge = levelreihenfolgen[0]        
 nextxabstand = 35
 maxmaphoehe = 0
-nextyabstand = 150
+nextyabstand = 0
 scrollabstand = 0
 
 def create_minimap(level):
-    global nextxabstand, nextyabstand, maxmaphoehe
+    global nextxabstand, nextyabstand, maxmaphoehe, potmax
     mapBreite = len(level[0]) * 12+1
     mapHoehe = len(level) * 12 +1
     if mapBreite + nextxabstand > 1585:
@@ -104,18 +103,50 @@ def create_minimap(level):
                 hp_boost((x,y),[minimapSprites])
     nextxabstand += mapBreite + 35
 
-scrollrect = pygame.rect.Rect(1525, 35, 50, nextyabstand)
+scrollrect = pygame.rect.Rect(1525, 35, 50, 100)
+scrollrect_color = (20,20,20)
+scrolling = False
+first = True
+old_mouse = 0
+multi = 0
 
 def update_minimapSprites():
-    global nextxabstand, nextyabstand, maxmaphoehe, selected_levelreihenfolge
+    global nextxabstand, nextyabstand, maxmaphoehe, selected_levelreihenfolge,scrollrect, multi, scrollabstand
     nextxabstand = 35
-    nextyabstand = 150
+    nextyabstand = 138  #hier ändern
     maxmaphoehe = 0
+    scrollabstand = 0
     minimapSprites.empty()
     for level in selected_levelreihenfolge:
         create_minimap(level)
-    scrollrect = pygame.rect.Rect(1525, 25, 50, nextyabstand)
+    multi = int(nextyabstand//830) +1
+    scrollrect = pygame.rect.Rect(1525, 25, 50, (nextyabstand/multi))
+    #print(nextyabstand, multi)
 
+def update_scrollbutton():
+    global scrollrect_color, scrolling, scrollabstand, old_mouse, multi
+    if not old_mouse:
+        old_mouse = (0,0)
+    maus_pos = pygame.mouse.get_pos()
+    scrollrect_color = (50,50,50)
+    if scrollrect.collidepoint(maus_pos):
+            scrollrect_color = (70,70,70)
+            if pygame.mouse.get_pressed()[0] == 1:
+                scrolling = True  
+            else:
+                scrolling = False             
+    else:
+        scrolling = False     
+    if scrolling:
+        scrollabstand -= (maus_pos[1] - old_mouse[1]) * multi 
+        scrollrect.top += maus_pos[1] - old_mouse[1] 
+        if scrollrect.top <= 35:
+            scrollrect.top = 35
+            scrollabstand = 0
+        if scrollrect.bottom >= 900-35:
+            scrollrect.bottom = 900-35
+            scrollabstand += (maus_pos[1] - old_mouse[1]) * multi           
+    old_mouse = maus_pos
 
 
 def levelauswahl_main():
@@ -124,10 +155,11 @@ def levelauswahl_main():
         window.fill((20,20,20))
         for sprite in minimapSprites:
             sprite.image = pygame.transform.scale(sprite.image,(12,12))
-        minimapSprites.draw(window)
+            window.blit(sprite.image, (sprite.rect.left, sprite.rect.top + scrollabstand))
         for button in updatelist:
             button.update()
-        pygame.draw.rect(window,(50,50,50),scrollrect)
+        update_scrollbutton()
+        pygame.draw.rect(window,scrollrect_color,scrollrect)
 
         pygame.display.update()
         for event in pygame.event.get():
@@ -137,7 +169,7 @@ def levelauswahl_main():
 
 elementcounter = 0
 for element in levelreihenfolgen:
-    levelselect_button(str(elementcounter), 15 + 15 * elementcounter + ((realFensterBreite-30) / (len(levelreihenfolgen) +1))  * elementcounter, 100, (realFensterBreite-30) / (len(levelreihenfolgen)+1),20,True, elementcounter)
+    levelselect_button(str(elementcounter), 15 + 15 * elementcounter + ((realFensterBreite-30) / (len(levelreihenfolgen) +1))  * elementcounter, 68, (realFensterBreite-30) / (len(levelreihenfolgen)+1),20,True, elementcounter)
     elementcounter += 1
 #print(elementcounter)
 def level_count(zahl):
