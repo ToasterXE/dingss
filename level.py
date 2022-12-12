@@ -1,5 +1,5 @@
 from threading import Thread
-from numpy import true_divide
+from multiprocessing import Process
 import pygame, os
 from maps import *
 from player import Player
@@ -790,11 +790,13 @@ def bombenart_update():
     if bombe_verstärkung >= 4:
         bombe_verstärkung = 4
     
+camAbstand = pygame.math.Vector2(0,0)
+#def draw_sichtbares( sprite):
+ #   window.blit(sprite.image, (sprite.rect.topleft - camAbstand))
 
 class Level:        #dieser teil ist wichtig
     def __init__(self, map):
         global bombenanzahl, gegner_eliminiert, gegner, bombenart, bombe_verstärkung, explosionsmap
-        self.draw_sichtbaresThread = Thread(target = self.draw_sichtbares(), name = "sichtbaresThread")
         self.draw_guteresThread = Thread(target = self.draw_guteres(), name = "guteresThread")
         self.draw_besseresThread = Thread(target = self.draw_besseres(), name = "besseresThread")
         self.bombenboostcounter = 0        
@@ -897,47 +899,67 @@ class Level:        #dieser teil ist wichtig
         #self.mapHoehe -= feld_pixel
         self.mapBreite = self.mapBreite // (self.mapHoehe / feld_pixel)       
 
+    def update_alien(self, aliens):
+        for alien in aliens:
+            if alien.rect.top - self.camAbstand.y <= 1000 and alien.rect.top - self.camAbstand.y > -100:
+                if alien.rect.left - self.camAbstand.x < 1300 and alien.rect.left - self.camAbstand.x > -100:
+                    alien.move()
+                    self.gegner_moving += 1
+                
+                for explosion in explosionSprites:
+                    if alien.rect.colliderect(explosion.rect):
+                        if alien.hit == False:
+                            dmg = explosion.damage
+                            alien.hit = True
+                
+                if alien.hit == True:
+                    alien.counter += 1
+                
+                    if alien.counter == 1:
+                        alien.hp -= dmg
 
+                    if alien.counter >= 0 and alien.counter < 15 or alien.counter >= 30 and alien.counter < 45 or alien.counter >= 60 and alien.counter < 75:
+                        alien.image = alien.hit_image
+                    
+                    else:
+                        alien.image = alien.image_normal
+                    
+                    if alien.counter == 75:
+                        alien.hit = False
+                        alien.counter = 0
+
+                if alien.hp <= 0:
+                    alien.delete()
+                    
+
+                if self.spieler.rect.colliderect(alien.rect):
+                    if self.spieler.hit == False:
+                        self.spieler.hit = True
+                        self.spieler.damage_taken = 1
+    
     def update(self):
         #print (bombenart, self.bombenboostcounter)
         global bombenanzahl
 
         self.gegner_moving = 0
+        l = []
+        counter = 0
         for alien in alienSprites:
-            if alien.rect.top - self.camAbstand.y <= 1000 and alien.rect.top - self.camAbstand.y > -100:
-                if alien.rect.left - self.camAbstand.x < 1300 and alien.rect.left - self.camAbstand.x > -100:
-                    alien.move()
-                    self.gegner_moving += 1
-            for explosion in explosionSprites:
-                if alien.rect.colliderect(explosion.rect):
-                    if alien.hit == False:
-                        dmg = explosion.damage
-                        alien.hit = True
-            
-            if alien.hit == True:
-                alien.counter += 1
-            
-                if alien.counter == 1:
-                    alien.hp -= dmg
-
-                if alien.counter >= 0 and alien.counter < 15 or alien.counter >= 30 and alien.counter < 45 or alien.counter >= 60 and alien.counter < 75:
-                    alien.image = alien.hit_image
-                
-                else:
-                    alien.image = alien.image_normal
-                
-                if alien.counter == 75:
-                    alien.hit = False
-                    alien.counter = 0
-
-            if alien.hp <= 0:
-                alien.delete()
-                
-
-            if self.spieler.rect.colliderect(alien.rect):
-                if self.spieler.hit == False:
-                    self.spieler.hit = True
-                    self.spieler.damage_taken = 1
+            if counter < len(alienSprites.sprites()) // 10:
+                counter += 1
+            else:
+                a = Thread(target=self.update_alien, args=(l,))
+                a.start()
+                l = []
+                counter = 0
+            l.append(alien)
+        a = Thread(target=self.update_alien, args=(l,))
+        a.start()
+            #a = Thread(target=self.update_alien, args=(alien,))
+            #l.append(a)
+            #a.start()  
+        #for thread in l:
+            #thread.start()
 
         if not self.godmode:
             for wegraeumbares in wegraeumbareSprites:
@@ -1016,11 +1038,11 @@ class Level:        #dieser teil ist wichtig
                 self.infofeld.createbombe()
                 bombe.delete()
                 self.objekte_eingesammelt += 1
-
+    
     def draw_sichtbares(self):
-        for spritee in sichtbareSprites:
-            self.fenster.blit(spritee.image, (spritee.rect.topleft - self.camAbstand))
-
+        for sprite in sichtbareSprites:
+            self.fenster.blit(sprite.image, sprite.rect.topleft - self.camAbstand)
+    
     def draw_guteres(self):
         for sprite in gutereSprites:   #ebene2: bomben/objekte
             self.fenster.blit(sprite.image, sprite.rect.topleft - self.camAbstand)
@@ -1030,7 +1052,7 @@ class Level:        #dieser teil ist wichtig
             self.fenster.blit(sprite.image, sprite.rect.topleft - self.camAbstand) 
 
     def kameraabstand(self, spieler):        #eigentlich kann man alle sprites zeichnen mit spritegruppe.update() aber aufgrund der kamerabewegung geht dies hier nicht
-        
+        global camAbstand
         if self.mapBreite <= LevelFensterBreite: #kamerabewegung x
             self.camAbstand.x = 0
         else:
@@ -1053,7 +1075,7 @@ class Level:        #dieser teil ist wichtig
             if self.spieler.rect.top >= self.mapHoehe - FensterHoehe/2:
                 self.camAbstand.y = self.mapHoehe - FensterHoehe
             
-
+        camAbstand = self.camAbstand
         #test
         #self.camAbstand.x = 0
         #self.camAbstand.y = 0
@@ -1139,22 +1161,20 @@ class Level:        #dieser teil ist wichtig
         #print(self.spielerhp, self.spieler.hp)
         #print (explosionsListe)
         #print(bombenanzahl)
-        #print (self.spieler.hp)
-        self.draw_sichtbaresThread = Thread(target = self.draw_sichtbares(), name = "sichtbaresThread")
-        self.draw_guteresThread = Thread(target = self.draw_guteres(), name = "guteresThread")
-        self.draw_besseresThread = Thread(target = self.draw_besseres(), name = "besseresThread")
+        
+        a = Thread(target=self.draw_sichtbares)
+        b = Thread(target = self.draw_guteres,)
+        c = Thread(target = self.draw_besseres,)
+        a.start()
+        b.start()
+        c.start()
+        a.join()
+        b.join()
+        c.join()
         self.runtime += 1
         self.update()
-        self.draw_sichtbaresThread.start()
-        self.draw_guteresThread.start()
-        self.draw_besseresThread.start()
         self.kameraabstand(self.spieler)
-        self.draw_sichtbaresThread.join()
-        self.draw_guteresThread.join()
-        self.draw_besseresThread.join()
-        sichtbareSprites.update()
         bessereSprites.update()
-        gutereSprites.update()
         
         self.infofeld.update()
         if gegner == 0:

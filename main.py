@@ -1,4 +1,5 @@
 import pygame
+from multiprocessing import Process, freeze_support
 from maps import *
 from level import *
 from einstellungen import *
@@ -64,6 +65,7 @@ nextxabstand = 35
 maxmaphoehe = 0
 nextyabstand = 0
 scrollabstand = 0
+#freeze_support()
 
 def create_minimap(level):
     global nextxabstand, nextyabstand, maxmaphoehe, potmax
@@ -221,7 +223,6 @@ def level_main(map):
     level = Level(map)
     run = True
     while run:     
-        clock.tick(60)
 
 
       #  if init_counter == 1:
@@ -275,17 +276,16 @@ def level_main(map):
                     level_main(level_count(level_counter))
 
         if level.end == False:
+            clock.tick(60)
             level.run()
-
         pygame.display.update()
-
         for event in pygame.event.get():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_g:
                     level.godmode_update()
 
-            if event.type ==  pygame.KEYDOWN:       #events wie KEYDOWN können nur im main loop aufgerufen werden (?)
+            if event.type ==  pygame.KEYDOWN: 
                 if event.key == bomben_taste:
                     if level.end == False:
                         level.dings()
