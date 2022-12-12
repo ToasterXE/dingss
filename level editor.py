@@ -28,12 +28,12 @@ font = pygame.font.SysFont("candara", 40)
 Level = []
 bListe = []
 eListe = []
-print("Breite angeben:")
-breite = int(input())
-print("Höhe angeben:")
-hoehe = int(input())
-#breite = 50
-#hoehe = 50
+#print("Breite angeben:")
+#breite = int(input())
+#print("Höhe angeben:")
+#hoehe = int(input())
+breite = 15
+hoehe = 15
 b = 0
 h = 0
 while b < breite:
@@ -141,7 +141,17 @@ def update_Maus():
                     feld_current.selected = True
                     feld_current.image = ausgewähltImg
                     Level[int(feld.y)][int(feld.x)] = 77
-
+    
+    if pygame.mouse.get_pressed()[2] == 1:
+        if mausPos[0] < 950:
+            mausPos += camAbstand
+            feld = pygame.math.Vector2(mausPos[0] // 32, mausPos[1] // 32)
+            if feld.y < len(Level) and feld.x < len(Level[0]):
+                feld_current = feldListe[int(feld.y)][int(feld.x)]
+                feld_current.image = feld_leer
+                Level[int(feld.y)][int(feld.x)] = 0
+                feld_current.selected = False
+    
     if pygame.mouse.get_pressed()[2] == 1:
         if mausPos == maus_alt:
             pass
@@ -288,8 +298,10 @@ def expand_breite():    #kaputt
                 x = zeile_index * 32
                 y = spalte_index * 32
                 feld(x,y)
-
+num = 0
+saved = False
 def main():
+    global saved, num4
     run = True
     while run:
         #print(position)
@@ -310,11 +322,31 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
                     switch_mode()
-
-
                 if event.key == pygame.K_4:
-                    print(Level)
+                    if saved:
+                        with open("userlevels.txt", "r") as file:
+                            text = file.readlines()
+                            text[int(num)] = ("userlevel" + num + " = " + str(Level) + "\n")
+                        with open("userlevels.txt", "w") as file:
+                            file.writelines(text)
+                    else:
+                        saved = True
+                        file = open("userlevels.txt", "r")
+                        num = file.readline().strip()
+                        file.close()
+                        file = open("userlevels.txt", "a")
+                        file.write("\n")
+                        file.write("userlevel" + num + " = " + str(Level) + "\n")
+
+
             if event.type == pygame.QUIT:
+
+                with open("userlevels.txt", "r") as file:
+                    text = file.readlines()
+                    text[0] = (str(int(text[0]) + 1) + "\n")
+                with open("userlevels.txt", "w") as file:
+                    file.writelines(text)
+
                 run = False
                 pygame.quit()
 main()

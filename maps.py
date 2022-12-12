@@ -429,7 +429,7 @@ Level8_map = [
 [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,],
 [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,],
 ]
-benediktslevel = [benediktslevel2, benediktslevel3, benediktslevel4, benediktslevel5, benediktslevel6, benediktslevel7]
-starterlevel = [Level4_map, Level5_map, Level6_map, Level7_map, Level8_map]
-
+benediktslevel = [benediktslevel2, benediktslevel3, benediktslevel4, benediktslevel5, benediktslevel7, benediktslevel6, benediktslevel6, benediktslevel6, benediktslevel6, benediktslevel6, benediktslevel6]
+starterlevel = [Level4_map, benediktslevel6, Level5_map, Level6_map, Level7_map, Level8_map]
+testeeeeeee1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1], [1, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 1], [1, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 11, 1], [1, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], [1, 2, 2, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1], [1, 2, 2, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1], [1, 2, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1], [1, 2, 0, 0, 0, 0, 1, 10, 0, 1, 11, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 1, 0, 10, 1, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1], [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 levelreihenfolgen = [starterlevel, benediktslevel]

@@ -1156,12 +1156,6 @@ class Level:        #dieser teil ist wichtig
             self.infofeld.godmode = True
 
     def run(self):
-        #print(self.gegner_moving)
-        #print(gegner)
-        #print(self.spielerhp, self.spieler.hp)
-        #print (explosionsListe)
-        #print(bombenanzahl)
-        
         a = Thread(target=self.draw_sichtbares)
         b = Thread(target = self.draw_guteres,)
         c = Thread(target = self.draw_besseres,)
@@ -1174,8 +1168,9 @@ class Level:        #dieser teil ist wichtig
         self.runtime += 1
         self.update()
         self.kameraabstand(self.spieler)
+        sichtbareSprites.update()
         bessereSprites.update()
-        
+        gutereSprites.update()
         self.infofeld.update()
         if gegner == 0:
             self.won = True
