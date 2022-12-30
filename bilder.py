@@ -7,6 +7,7 @@ slowness_potionImg32 = pygame.image.load(os.path.join("dateien", "slowness_potio
 speed_potionImg32 = pygame.image.load(os.path.join("dateien","speed_potion.png"))
 counterleiste = pygame.image.load(os.path.join("dateien", "counterleiste.png"))
 
+
 playervorneImg = pygame.transform.scale(pygame.image.load(os.path.join("dateien", "player_vorne.png")),(feld_pixel, feld_pixel))
 playerobenImg = pygame.transform.scale(pygame.image.load(os.path.join("dateien", "player_oben.png")),(feld_pixel, feld_pixel))
 playeruntenImg = pygame.transform.scale(pygame.image.load(os.path.join("dateien", "player_unten.png")),(feld_pixel, feld_pixel))

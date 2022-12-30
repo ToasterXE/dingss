@@ -11,8 +11,8 @@ Levelh = len(hListe)
 realFensterBreite = 1600
 LevelFensterBreite = 1200
 FensterHoehe = 900
-feld_pixel = 32
-feld_pixele = 32
+feld_pixel = 64
+feld_pixele = 64
 window = pygame.display.set_mode((realFensterBreite, FensterHoehe))
 bombenart = 0
 

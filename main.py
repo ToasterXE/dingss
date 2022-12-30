@@ -1,5 +1,4 @@
 import pygame
-from multiprocessing import Process, freeze_support
 from maps import *
 from level import *
 from einstellungen import *
@@ -32,8 +31,8 @@ class levelselect_button():
    
     def update(self):
         global selected_levelreihenfolge
-        self.draw_rect.top = self.rect.top + scrollabstand
-        self.draw_schrift_rect.top = self.schrift_rect.top + scrollabstand
+        self.draw_rect.topleft = self.rect.topleft + scrollabstand
+        self.draw_schrift_rect.topleft = self.schrift_rect.topleft + scrollabstand
         maus_pos = pygame.mouse.get_pos()
         pygame.draw.rect(window, self.color, self.draw_rect,0,4)
         window.blit(self.schrift, self.draw_schrift_rect)
@@ -64,7 +63,7 @@ selected_levelreihenfolge = levelreihenfolgen[0]
 nextxabstand = 35
 maxmaphoehe = 0
 nextyabstand = 0
-scrollabstand = 0
+scrollabstand = pygame.math.Vector2(0,0)
 #freeze_support()
 
 def create_minimap(level):
@@ -117,7 +116,7 @@ def update_minimapSprites():
     nextxabstand = 35
     nextyabstand = 138  #hier ändern
     maxmaphoehe = 0
-    scrollabstand = 0
+    scrollabstand = pygame.math.Vector2(0,0)
     minimapSprites.empty()
     for level in selected_levelreihenfolge:
         create_minimap(level)
@@ -147,30 +146,27 @@ def update_scrollbutton():
     else:
         scrolling = False     
     if scrolling:
-        scrollabstand -= (maus_pos[1] - old_mouse[1]) * multi 
+        scrollabstand.y -= (maus_pos[1] - old_mouse[1]) * multi 
         scrollrect.top += maus_pos[1] - old_mouse[1] 
         if scrollrect.top <= 35:
             scrollrect.top = 35
-            scrollabstand = 0
+            scrollabstand = pygame.math.Vector2(0,0)
         if scrollrect.bottom >= 900-35:
             scrollrect.bottom = 900-35
-            scrollabstand += (maus_pos[1] - old_mouse[1]) * multi           
+            scrollabstand.y += (maus_pos[1] - old_mouse[1]) * multi           
     old_mouse = maus_pos
-ee = 0
+
 def levelauswahl_main():
-    global ee
     run = True
     while run:
 
         window.fill((20,20,20))
         for sprite in minimapSprites:
-            window.blit(sprite.image, (sprite.rect.left, sprite.rect.top + scrollabstand))
+            window.blit(sprite.image, sprite.rect.topleft + scrollabstand)
         for button in updatelist:
             button.update()
         update_scrollbutton()
         pygame.draw.rect(window,scrollrect_color,scrollrect)
-        ee += 1
-        print(ee//60)
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

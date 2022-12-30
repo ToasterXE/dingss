@@ -825,7 +825,7 @@ class Level:        #dieser teil ist wichtig
         explosionsmap = self.map.copy()
         self.won = False
         self.create_map()  
-        self.infofeld = infofeld(FensterHoehe, self.spieler, self.fenster, bombenanzahl)
+        #self.infofeld = infofeld(FensterHoehe, self.spieler, self.fenster, bombenanzahl)
     
     def update_bombenboost(self):
         global bombenart
@@ -835,7 +835,7 @@ class Level:        #dieser teil ist wichtig
             bombenart += 1
             self.bombenboostcounter = 0
             bombenart_update()
-            self.infofeld.update_bombenart(bombenart)
+            #self.infofeld.update_bombenart(bombenart)
 
     def create_map(self):
         global gegner
@@ -1009,7 +1009,7 @@ class Level:        #dieser teil ist wichtig
                 if self.spieler.rect.colliderect(bombeboost.rect):
                     bombeboost.delete()
                     self.objekte_eingesammelt += 1
-                    self.infofeld.bombenboostcounter += 1
+                    #self.infofeld.bombenboostcounter += 1
                     self.bombenboostcounter += 1
                     self.update_bombenboost()
 
@@ -1034,8 +1034,8 @@ class Level:        #dieser teil ist wichtig
         for bombe in bombenobjekteSprites:
             if self.spieler.rect.colliderect(bombe.rect):
                 bombenanzahl += 1
-                self.infofeld.bombenanzahl += 1
-                self.infofeld.createbombe()
+                #self.infofeld.bombenanzahl += 1
+                #self.infofeld.createbombe()
                 bombe.delete()
                 self.objekte_eingesammelt += 1
     
@@ -1129,9 +1129,9 @@ class Level:        #dieser teil ist wichtig
                 elif bombe_verstärkung == 4:
                     e = bombe_verstärkt4([gutereSprites, bombenSprites],pos,self.map)
                 bombenanzahl -= 1
-                self.infofeld.animiertebomben += 1
+                #self.infofeld.animiertebomben += 1
                 e.explode()
-                self.infofeld.bombe_explode()
+                #self.infofeld.bombe_explode()
                 e.update()
 
 
@@ -1141,19 +1141,19 @@ class Level:        #dieser teil ist wichtig
             self.godmode = False
             bombe_verstärkung = self.bombeverstalt
             self.spielerhp = self.spielerhpalt
-            self.infofeld.update_bombenart(self.bombeverstalt)
+            #self.infofeld.update_bombenart(self.bombeverstalt)
             self.spieler.godmode = False
             self.spieler.godmode = False
         else:
             self.godmode = True
             self.bombeverstalt = bombe_verstärkung
             bombe_verstärkung = 4
-            self.infofeld.update_bombenart(4)
+            #self.infofeld.update_bombenart(4)
             self.spielerhpalt = self.spielerhp
             self.hp = 10000
             self.spieler.speed = feld_pixel / 4
             self.spieler.godmode = True
-            self.infofeld.godmode = True
+            #self.infofeld.godmode = True
 
     def run(self):
         a = Thread(target=self.draw_sichtbares)
@@ -1171,7 +1171,7 @@ class Level:        #dieser teil ist wichtig
         sichtbareSprites.update()
         bessereSprites.update()
         gutereSprites.update()
-        self.infofeld.update()
+        #self.infofeld.update()
         if gegner == 0:
             self.won = True
         if self.won or self.spieler.gestorben:
