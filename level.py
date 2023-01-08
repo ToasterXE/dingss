@@ -1134,7 +1134,6 @@ class Level:        #dieser teil ist wichtig
                 self.infofeld.bombe_explode()
                 e.update()
 
-
     def godmode_update(self):
         global bombe_verstärkung
         if self.godmode:
@@ -1208,3 +1207,5 @@ class Level:        #dieser teil ist wichtig
         textfeld("Sekunden", 760, 150, self.fenster, 20)
         textfeld("Gesundheit übrig", 570, 210, self.fenster, 20)
         textfeld((str(self.spieler.hp) + '/' + str(self.spielerhp)), 670, 210, self.fenster, 20)
+
+test = "e"
