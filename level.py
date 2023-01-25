@@ -10,7 +10,6 @@ from felder import *
 from infofeld import *
 from bilder import *
 from sdings import sdtListeNamen
-
 #globale variablen
 bombenanzahl = 3
 explosionsListe = []
@@ -135,6 +134,8 @@ bomben_verstärkung4Sprites = [bombeImg4_verstärkung1,bombeImg2_verstärkung4,b
 bombeImg6_verstärkung4,bombeImg7_verstärkung4,bombeImg8_verstärkung4,bombeImg9_verstärkung4,bombeImg10_verstärkung4,bombeImg11_verstärkung4,bombeImg12_verstärkung4]
 
 explosionsSprites = [explosionsImg1,explosionsImg2,explosionsImg4,explosionsImg5,explosionsImg7,explosionsImg8,explosionsImg10,explosionsImg11]
+pygame.mixer.init()
+explosionsounds = [pygame.mixer.Sound('explosion1.mp3'),pygame.mixer.Sound(("explosion2.mp3")),pygame.mixer.Sound(("explosion3.mp3")),pygame.mixer.Sound(("explosion4.mp3")),pygame.mixer.Sound(("explosion5.mp3"))]
 
 
 class bombe_verstärkt4(pygame.sprite.Sprite):
@@ -367,6 +368,7 @@ class bombe(pygame.sprite.Sprite):
             self.counter = 0
             bombenanzahl += 1
             self.explosionsanimation = True
+            pygame.mixer.find_channel().play(explosionsounds[random.randint(0,4)])
             self.exploding = False
             
             i = 0

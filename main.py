@@ -34,6 +34,8 @@ class normal_button():
 
 def level_main():
     pygame.mixer.music.stop()
+    pygame.mixer.music.load(os.path.join("sound","level_music.mp3"))
+    pygame.mixer.music.play(loops=-1)
     global level_counter, run
     map = level_count(level_counter)
     level = Level(map)
@@ -89,7 +91,7 @@ def level_main():
                 retry_button.update()
                 if keys_pressed[auswahl_taste]:
                     retry_button.reaction = True
-                    level_main(level_count(level_counter))
+                    level_main()
 
         if level.end == False:
             clock.tick(60)
