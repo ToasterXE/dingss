@@ -368,7 +368,8 @@ class bombe(pygame.sprite.Sprite):
             self.counter = 0
             bombenanzahl += 1
             self.explosionsanimation = True
-            pygame.mixer.find_channel().play(explosionsounds[random.randint(0,4)])
+            if pygame.mixer.find_channel():
+                pygame.mixer.find_channel().play(explosionsounds[random.randint(0,4)])
             self.exploding = False
             
             i = 0

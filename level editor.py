@@ -32,8 +32,8 @@ eListe = []
 #breite = int(input())
 #print("Höhe angeben:")
 #hoehe = int(input())
-breite = 15
-hoehe = 15
+breite = 12
+hoehe = 12
 b = 0
 h = 0
 while b < breite:
