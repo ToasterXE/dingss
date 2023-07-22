@@ -33,9 +33,9 @@ class normal_button():
             self.color = (50,50,50)
 
 def level_main():
-    pygame.mixer.music.stop()
-    pygame.mixer.music.load(os.path.join("sound","level_music.mp3"))
-    pygame.mixer.music.play(loops=-1)
+    #pygame.mixer.music.stop()
+    #pygame.mixer.music.load(os.path.join("sound","level_music.mp3"))
+    #pygame.mixer.music.play(loops=-1)
     global level_counter, run
     map = level_count(level_counter)
     level = Level(map)
@@ -103,11 +103,14 @@ def level_main():
                 if event.key == pygame.K_g:
                     level.godmode_update()
 
-            if event.type ==  pygame.KEYDOWN: 
                 if event.key == bomben_taste:
                     if level.end == False:
                         level.dings()
         
+                if event.key == pygame.K_ESCAPE:
+                    run = False
+                    pygame.quit()
+
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
@@ -135,8 +138,8 @@ levelselect = normal_button((70,220), "Select Levels", levelauswahl_main)
 
 def main_menu():
     global level_counter, spielstart, run
-    pygame.mixer.music.load(os.path.join("sound","main_menu.mp3"))
-    pygame.mixer.music.play(loops=-1)
+    #pygame.mixer.music.load(os.path.join("sound","main_menu.mp3"))
+    #pygame.mixer.music.play(loops=-1)
     while run:
         window.fill((20,20,20))
         start.update()
@@ -145,7 +148,11 @@ def main_menu():
     #hier wird zu einem anderen main loop gewechselt 
 
         for event in pygame.event.get():
-            
+                            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    run = False
+                    pygame.quit()
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
@@ -202,13 +209,13 @@ nextxabstand = 35
 maxmaphoehe = 0
 nextyabstand = 0
 scrollabstand = 0
-zurückbutton = normal_button((1200,780), "zurück", main_menu)
+zurückbutton = normal_button((LevelFensterBreite, FensterHoehe-120), "zurück", main_menu)
 
 def create_minimap(level):
     global nextxabstand, nextyabstand, maxmaphoehe, potmax
     mapBreite = len(level[0]) * 12+1
     mapHoehe = len(level) * 12 +1
-    if mapBreite + nextxabstand > 1585:
+    if mapBreite + nextxabstand > realFensterBreite - 35:
         nextxabstand = 35
         nextyabstand += maxmaphoehe + 35
         maxmaphoehe = mapHoehe
@@ -243,7 +250,7 @@ def create_minimap(level):
                 hp_boost((x,y),[minimapSprites])
     nextxabstand += mapBreite + 35
 
-scrollrect = pygame.rect.Rect(1525, 35, 50, 100)
+scrollrect = pygame.rect.Rect(realFensterBreite-50, 35, 50, 100)
 scrollrect_color = (20,20,20)
 scrolling = False
 old_mouse = 0
@@ -263,11 +270,11 @@ def update_minimapSprites():
         sprite.image = pygame.transform.scale(sprite.image,(12,12))
 
 def get_scrollrecthoehe():  #dings
-    global multi
-    if nextyabstand + maxmaphoehe < 900:
-        return 840
-    e = 900 / (nextyabstand + maxmaphoehe)
-    multi = ((nextyabstand + maxmaphoehe )) / 830 #- (830 * e)) 
+    global multi, FensterHoehe
+    if nextyabstand + maxmaphoehe < FensterHoehe:
+        return FensterHoehe /15
+    e = FensterHoehe / (nextyabstand + maxmaphoehe)
+    multi = ((nextyabstand + maxmaphoehe )) / (FensterHoehe / 18) #- (830 * e)) 
 
     #print((nextyabstand + maxmaphoehe),830 * multi * e)
     return 830 * e - 35*e
@@ -292,8 +299,8 @@ def update_scrollbutton():
         if scrollrect.top <= 35:
             scrollrect.top = 35
             scrollabstand = 0
-        if scrollrect.bottom >= 900-35:
-            scrollrect.bottom = 900-35
+        if scrollrect.bottom >= FensterHoehe-35:
+            scrollrect.bottom = FensterHoehe-35
             scrollabstand += (maus_pos[1] - old_mouse[1]) * multi           
     old_mouse = maus_pos
 

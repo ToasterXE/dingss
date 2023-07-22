@@ -66,6 +66,8 @@ class feld(pygame.sprite.Sprite):
         feldListe[int(y/32)][int(x/32)] = self
         self.selected = False
 
+    def delete(self):
+        self.kill()
 
 for spalte_index, spalte in enumerate(Level):
     for zeile_index, spalte in enumerate(spalte):
@@ -274,30 +276,46 @@ def level_draw():
     for sprite in sprites:
         window.blit(sprite.image, (sprite.rect.topleft - camAbstand))
 
-def expand_hoehe(): #kaputt
-    tempListe = bListe.copy()
+def expand_hoehe(): 
+    tempListe = []
+    for i in range(0, len(Level[0])):
+        tempListe.append(0)
     Level.append(tempListe)
-    temp2Liste = bListe.copy()
+    temp2Liste = tempListe.copy()
     feldListe.append(temp2Liste)
-    for spalte_index, spalte in enumerate(Level):
+    for spalte_index, spalte in enumerate(feldListe):
         for zeile_index, spalte in enumerate(spalte):
             if spalte == 0:
                 x = zeile_index * 32
                 y = spalte_index * 32
                 feld(x,y)
 
-def expand_breite():    #kaputt
+def decrease_hoehe():
+    for feld in feldListe[-1]:
+        feld.delete()       
+    del Level[-1]
+    del feldListe[-1]
+
+
+
+def expand_breite():
     i = 0
     while i < len(Level):
         Level[i].append(0)
         feldListe[i].append(0)
         i += 1        
-    for spalte_index, spalte in enumerate(Level):
-        for zeile_index, spalte in enumerate(spalte):
+    for zeile_index, zeile in enumerate(feldListe):
+        for spalte_index, spalte in enumerate(zeile):
             if spalte == 0:
-                x = zeile_index * 32
-                y = spalte_index * 32
+                y = zeile_index * 32
+                x = spalte_index * 32
                 feld(x,y)
+
+def decrease_breite():
+    for i in range(0, len(Level)):
+        del Level[i][-1]
+        feldListe[i][-1].delete()       
+        del feldListe[i][-1]
 num = 0
 saved = False
 def main():
@@ -337,6 +355,18 @@ def main():
                         file = open("userlevels.txt", "a")
                         file.write("\n")
                         file.write("userlevel" + num + " = " + str(Level) + "\n")
+                
+                if event.key == pygame.K_2:
+                    expand_breite()
+
+                if event.key == pygame.K_3:
+                    expand_hoehe()
+
+                if event.key == pygame.K_5:
+                    decrease_breite()
+
+                if event.key == pygame.K_6:
+                    decrease_hoehe()
 
 
             if event.type == pygame.QUIT:
