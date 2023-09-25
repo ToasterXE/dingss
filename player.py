@@ -1,6 +1,6 @@
 import pygame
-import os
-from einstellungen import feld_pixel
+from hashseed import *
+from einstellungen import feld_pixel, seed
 from bilder import *
 Horizontalzuletzt = "keine" 
 Vertikalzuletzt = "keine"
@@ -49,7 +49,7 @@ class Player(pygame.sprite.Sprite):
 
     def player_movement(self):
         keys_pressed = pygame.key.get_pressed()
-        global i, zuletzt, Vertikalzuletzt, Horizontalzuletzt
+        global i, zuletzt, Vertikalzuletzt, Horizontalzuletzt, seed
 
         if keys_pressed[pygame.K_w]:
             self.blickrichtung.x = 0
@@ -60,6 +60,7 @@ class Player(pygame.sprite.Sprite):
             self.image32 = playerobenImg32
             self.stop_vertikal = False
             self.stop_horizontal = True
+            seed += "w"
 
         elif keys_pressed[pygame.K_s]:
             self.blickrichtung.x = 0    
@@ -70,6 +71,7 @@ class Player(pygame.sprite.Sprite):
             self.image32 = playeruntenImg32
             self.stop_vertikal = False
             self.stop_horizontal = True
+            seed += "s"
 
         elif keys_pressed[pygame.K_a]:
             self.blickrichtung.x = -1
@@ -80,6 +82,7 @@ class Player(pygame.sprite.Sprite):
             self.image32 = playerlinksImg32
             self.stop_horizontal = False
             self.stop_vertikal = True
+            seed += "a"
 
         elif keys_pressed[pygame.K_d]:
             self.blickrichtung.x = 1
@@ -90,6 +93,7 @@ class Player(pygame.sprite.Sprite):
             self.image32 = playerrechtsImg32
             self.stop_horizontal = False
             self.stop_vertikal = True
+            seed += "d"  
 
         else:
             self.blickrichtung.x = 0
@@ -98,6 +102,7 @@ class Player(pygame.sprite.Sprite):
             self.image32 = playervorneImg32
             self.stop_horizontal = True
             self.stop_vertikal = True
+            seed += "0"        
 
         self.rect.topleft += self.blickrichtung * self.speed
 

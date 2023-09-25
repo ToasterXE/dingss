@@ -3,6 +3,7 @@ from multiprocessing import Process, freeze_support
 from maps import *
 from level import *
 from einstellungen import *
+from hashseed import *
 hintergrundImg = pygame.transform.scale(pygame.image.load((os.path.join("dateien", "hintergrund.png"))),(realFensterBreite,FensterHoehe))
 
 pygame.font.init()
@@ -33,15 +34,15 @@ class normal_button():
             self.color = (50,50,50)
 
 def level_main():
-    #pygame.mixer.music.stop()
-    #pygame.mixer.music.load(os.path.join("sound","level_music.mp3"))
-    #pygame.mixer.music.play(loops=-1)
+    pygame.mixer.music.stop()
+    pygame.mixer.music.load(os.path.join("sound","level_music.mp3"))
+    pygame.mixer.music.play(loops=-1)
     global level_counter, run
     map = level_count(level_counter)
     level = Level(map)
     run = True
     while run:     
-
+        print(seed)
 
       #  if init_counter == 1:
        #     level = Level(map)
@@ -51,26 +52,10 @@ def level_main():
         if level.end == True:
             level.statistiken()
 
-            #sichtbare spritegruppen
-            sichtbareSprites.empty() 
-            bessereSprites.empty()
-            gutereSprites.empty()
-            collisionSprites.empty()   
-            bombenSprites.empty()    
-            wegraeumbareSprites.empty()
-            explosionSprites.empty()
-            sprengbaresSprites.empty()
-            speedSprites.empty()
-            slownessSprites.empty()
-            speedcounterSprites.empty()
-            slownesscounterSprites.empty()
-            bombenobjekteSprites.empty()
-            alienSprites.empty()
-            explosionsListe.clear()
-            hpboostSprites.empty()
-            bombeboostSprites.empty()
-            infofeldexplosionen.empty()
-            aliencollisionSprites.empty()
+
+
+            for group in spritegroups:
+                group.empty()
 
             if level.won == True:
                 if level_counter < 3:
@@ -78,7 +63,7 @@ def level_main():
                     if keys_pressed[auswahl_taste]:
                         weiter.reaction = True
                         level_counter += 1
-                        level_main(level_count(level_counter))
+                        level_main()
             
                 elif level_counter >= 3:
                     hauptmenu.update()

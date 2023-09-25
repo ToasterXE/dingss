@@ -1,5 +1,5 @@
 import hashlib
-seed = "12"
+from einstellungen import *
 
 def update_seed(string):
     global seed

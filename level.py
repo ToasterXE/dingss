@@ -5,6 +5,7 @@ from maps import *
 from player import Player
 from objekte import *
 import random 
+from hashseed import *
 from einstellungen import *
 from felder import * 
 from infofeld import *
@@ -829,6 +830,9 @@ class Level:        #dieser teil ist wichtig
         self.won = False
         self.create_map()  
         self.infofeld = infofeld(FensterHoehe, self.spieler, self.fenster, bombenanzahl)
+        self.seed = "12345"
+
+    
     
     def update_bombenboost(self):
         global bombenart
