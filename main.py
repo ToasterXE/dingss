@@ -1,87 +1,85 @@
 import pygame
-from multiprocessing import Process, freeze_support
 from maps import *
 from level import *
 from einstellungen import *
 from hashseed import *
-hintergrundImg = pygame.transform.scale(pygame.image.load((os.path.join("dateien", "hintergrund.png"))),(realFensterBreite,FensterHoehe))
 
+#setup
 pygame.font.init()
 pygame.display.set_caption("dingss")
 pygame.display.set_icon(pygame.image.load(os.path.join("dateien", "player_vorne.png")))
 font = pygame.font.SysFont("candara", 80)
-#tasten
-auswahl_taste = pygame.K_l
 bomben_taste = pygame.K_p
 pygame.mixer.init()
+
+
 
 class normal_button():
     def __init__(self, topleft, str, fn):
         self.schrift = font.render(str, True, (230,230,230))
         self.schrift_rect = self.schrift.get_rect(topleft = topleft)
         self.rect = pygame.rect.Rect(self.schrift_rect.left - 5, self.schrift_rect.top -5, self.schrift_rect.width + 10, self.schrift_rect.height + 10)
-        self.color = (50,50,50)
+        self.color = buttonColor
         self.fn = fn
+
     def update(self):
         pygame.draw.rect(window, self.color, self.rect, border_radius=4)
         window.blit(self.schrift, self.schrift_rect)
         maus_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(maus_pos):
-            self.color = (35,35,35)
+            self.color = hoverColor
             if pygame.mouse.get_pressed()[0] == 1:
                 self.fn()
         else: 
-            self.color = (50,50,50)
+            self.color = buttonColor
 
 def level_main():
+    global level_counter, run
+    
     pygame.mixer.music.stop()
     pygame.mixer.music.load(os.path.join("sound","level_music.mp3"))
-    pygame.mixer.music.play(loops=-1)
-    global level_counter, run
-    map = level_count(level_counter)
-    level = Level(map)
+    # pygame.mixer.music.play(loops=-1)
+
+    currentmap = level_count(level_counter)
+    level = Level(currentmap)
     run = True
     while run:     
-        print(seed)
-
-      #  if init_counter == 1:
-       #     level = Level(map)
+        # print(seed)
         
-        window.fill((20,20,20)) 
-        keys_pressed = pygame.key.get_pressed()
-        if level.end == True:
-            level.statistiken()
 
+        while level.end == True:
+            pygame.quit()
+            # level.statistiken()
 
+            # for group in spritegroups:
+            #     group.empty()
 
-            for group in spritegroups:
-                group.empty()
-
-            if level.won == True:
-                if level_counter < 3:
-                    weiter.update()
-                    if keys_pressed[auswahl_taste]:
-                        weiter.reaction = True
-                        level_counter += 1
-                        level_main()
+            # if level.won == True:
+            #     if level_counter < 3:
+            #         weiter.update()
+            #         if keys_pressed[auswahl_taste]:
+            #             weiter.reaction = True
+            #             level_counter += 1
+            #             level_main()
             
-                elif level_counter >= 3:
-                    hauptmenu.update()
-                    if keys_pressed[auswahl_taste]:
-                        hauptmenu.reaction = True
-                        level_counter += 0
-                        main_menu()
+            #     elif level_counter >= 3:
+            #         hauptmenu.update()
+            #         if keys_pressed[auswahl_taste]:
+            #             hauptmenu.reaction = True
+            #             level_counter += 0
+            #             main_menu()
 
-            else:
-                retry_button.update()
-                if keys_pressed[auswahl_taste]:
-                    retry_button.reaction = True
-                    level_main()
+            # else:
+            #     retry_button.update()
+            #     if keys_pressed[auswahl_taste]:
+            #         retry_button.reaction = True
+            #         level_main()
 
-        if level.end == False:
-            clock.tick(60)
-            level.run()
+        clock.tick(60)
+        window.fill(bgColor) 
+        level.run()
         pygame.display.update()
+
         for event in pygame.event.get():
 
             if event.type == pygame.KEYDOWN:
@@ -104,7 +102,7 @@ def levelauswahl_main():
     run = True
     while run:
 
-        window.fill((20,20,20))
+        window.fill(bgColor)
         for sprite in minimapSprites:
             window.blit(sprite.image, (sprite.rect.left, sprite.rect.top + scrollabstand))
         for button in updatelist:

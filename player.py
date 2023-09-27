@@ -21,7 +21,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = pos)
         self.blickrichtung = pygame.math.Vector2()
         self.hindernisse = hindernisse
-        self.speed = feld_pixel / 8
+        self.speed = player_speed
         self.hp = hp
         self.hit = False
         self.godmode = False

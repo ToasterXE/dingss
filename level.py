@@ -404,7 +404,7 @@ class alien1(pygame.sprite.Sprite):
         self.image = alien1Img
         self.image_normal = alien1Img
         self.rect = self.image.get_rect(topleft = pos)
-        self.speed = random.randint(3,6)
+        self.speed = random.randint(min_speed,max_speed)
         self.hp = 3
         self.hit = False
         self.counter = 0
@@ -647,12 +647,12 @@ class alien2(pygame.sprite.Sprite):
         self.hit = False
         self.hp = 2
         self.counter = 0
-        self.speed = 2
+        self.speed = alien2_speed
         self.bild = 0
         self.type = 2
 
         if random.randint(1,2) == 2:
-            self.speed = 4
+            self.speed *= 2
         
         self.bewegungsrichtung = bewegungsrichtung(self.rect, self.speed)
 
@@ -1150,6 +1150,7 @@ class Level:        #dieser teil ist wichtig
             self.infofeld.update_bombenart(self.bombeverstalt)
             self.spieler.godmode = False
             self.spieler.godmode = False
+            self.spieler.speed /= 2
         else:
             self.godmode = True
             self.bombeverstalt = bombe_verstärkung
@@ -1157,7 +1158,7 @@ class Level:        #dieser teil ist wichtig
             self.infofeld.update_bombenart(4)
             self.spielerhpalt = self.spielerhp
             self.hp = 10000
-            self.spieler.speed = feld_pixel / 4
+            self.spieler.speed *= 2
             self.spieler.godmode = True
             self.infofeld.godmode = True
 
