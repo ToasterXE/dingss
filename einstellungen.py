@@ -1,13 +1,13 @@
 import pygame
 
 #generell wird b für breite/horizontalen abstand verwendet und h für höhe/vertikalen abstand
-realFensterBreite = 1600
+realFensterBreite = 1200
 LevelFensterBreite = int(realFensterBreite*0.125)
 FensterHoehe = int(realFensterBreite*(9/16))
 feld_pixel = int(realFensterBreite/50)
 feld_pixele = int(realFensterBreite/50)
 player_speed = max(int(realFensterBreite/300),1)
-alien2_speed = max(int(realFensterBreite/800),1)
+alien2_speed = max(int(realFensterBreite/600),1)
 max_speed = max(int(realFensterBreite/380),1)
 min_speed = max(int(realFensterBreite/500),1)
 

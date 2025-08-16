@@ -667,7 +667,7 @@ class alien2(pygame.sprite.Sprite):
     def delete(self):
         global gegner, gegner_eliminiert
         self.rect.topleft -= self.bewegungsrichtung.Vector * self.speed  
-        if self.bild == 10:
+        if self.bild == int(feld_pixel/3):
             self.kill()
             gegner -= 1
             gegner_eliminiert += 1
